@@ -33,7 +33,7 @@
 .checkpoint-dot.active{animation:checkpointPulse 1.5s ease-in-out infinite}
 .checkpoint-dot.done{animation:pop .32s ease both}
 .toast.show{display:block;animation:toastIn .25s ease both}
-.finish.show .finishCard{animation:finishIn .4s cubic-bezier(.2,.8,.2,1) both}
+.finish.show .finishCard{animation:finishIn .4s cubic-bezier(.2,.8,.2,1) both;opacity:1}
 .xpBurst{position:fixed;z-index:10001;pointer-events:none;font-size:24px;font-weight:950;color:#fc4c02;animation:xpFloat .9s ease forwards}
 @keyframes xpFloat{from{opacity:0;transform:translate(-50%,8px) scale(.7)}20%{opacity:1}to{opacity:0;transform:translate(-50%,-70px) scale(1.15)}}
 .confetti{position:fixed;z-index:10002;top:-12px;width:7px;height:11px;border-radius:2px;pointer-events:none;animation:confettiFall var(--d) cubic-bezier(.15,.75,.25,1) forwards}
@@ -209,6 +209,32 @@ html.darkMode .sheetMetrics small{color:#a5aba5!important;}
 html.darkMode .sheetMetrics div{background:#222622!important;color:#f2f4f0!important;}
 html.darkMode .sheetClose{background:#292d29!important;color:#fff!important;}
 html.darkMode input{background:#121512!important;color:#fff!important;border-color:#3a4039!important;}
+/* V2.22 — finish screen + navigation dark mode consistency */
+html.darkMode .finish{background:#101210!important;color:#f2f4f0!important;}
+html.darkMode .finishCard{color:#f2f4f0!important;}
+html.darkMode .finish .eyebrow{color:#a5aba5!important;}
+html.darkMode .finish h1{color:#f2f4f0!important;}
+html.darkMode .finishStats{background:#30352f!important;}
+html.darkMode .finishStats div{background:#181b18!important;color:#f2f4f0!important;}
+html.darkMode .finishStats small{color:#a5aba5!important;}
+html.darkMode .finishXpBox{background:#181b18!important;color:#f2f4f0!important;border-color:#3a4039!important;}
+html.darkMode .finishXpHead{color:#f2f4f0!important;}
+html.darkMode .finishXpMeta{color:#a5aba5!important;}
+html.darkMode .finishXpBar{background:#30352f!important;}
+html.darkMode .finishXpBar i{background:#ff7040!important;}
+html.darkMode .finish .primary{background:#ff7040!important;color:#fff!important;}
+html.darkMode .certXpBadge{background:#3a1d19!important;color:#ff8b78!important;}
+html.darkMode .navPanel{background:#181b18!important;color:#f2f4f0!important;border-color:#30352f!important;}
+html.darkMode .navName span{color:#a5aba5!important;}
+html.darkMode .navstats{background:#30352f!important;}
+html.darkMode .navstats div{background:#222622!important;color:#f2f4f0!important;}
+html.darkMode .navstats small{color:#a5aba5!important;}
+html.darkMode .simulate{background:#181b18!important;color:#f2f4f0!important;border-color:#4a5049!important;}
+html.darkMode .stop{background:#f2f4f0!important;color:#111!important;}
+html.darkMode .instruction{background:#181b18!important;color:#f2f4f0!important;border-color:#30352f!important;}
+html.darkMode .instruction small,html.darkMode .instruction .turnDistance{color:#a5aba5!important;}
+html.darkMode .roundBtn{background:#181b18!important;color:#f2f4f0!important;border-color:#30352f!important;}
+
 </style>
 </style>
 </head>
