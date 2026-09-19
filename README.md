@@ -1,11 +1,18 @@
-# PROJECT 4808 — V2.7 Modern — GitHub
+# PROJECT 4808 — V2.8
 
-Version complète prête pour GitHub Pages.
+Version GitHub complète — randonnées de la Manche.
 
-- Interface accueil modernisée avec photos
-- Carte des randonnées de la Manche
-- Navigation GPS et tracés GPX
-- Catalogue avec les GPX disponibles intégrés dans `gpx/`
-- Données locales de progression
+## V2.8
+- écran de lancement animé
+- tutoriel affiché automatiquement après la création d'un compte, jamais avant
+- tutoriel retiré du profil
+- compte à rebours Mont Blanc avec secondes
+- plusieurs randonnées dans « À faire » avec photos provenant des fiches GPX/Cirkwi quand disponibles
+- démarrage d'une randonnée sans validation automatique des checkpoints
+- checkpoints validés uniquement pendant la progression réelle/simulation
+- alerte hors parcours après plusieurs secondes de sortie du tracé
+- 30 tracés GPX de la Manche
+- carte, GPS, XP, progression, historique et profil conservés
 
-Déposer **tout le contenu de ce dossier** à la racine du dépôt GitHub. Ne pas supprimer le dossier `gpx/`, `manifest.json`, `sw.js` ou `icon.svg`.
+## GitHub Pages
+Mettre tous les fichiers et le dossier `gpx/` à la racine du dépôt.

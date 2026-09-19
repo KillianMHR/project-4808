@@ -1,15 +1,10 @@
 {
-  "name": "PROJECT 4808 — Manche",
+  "name": "PROJECT 4808",
   "short_name": "4808",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f6f6f3",
-  "theme_color": "#ffffff",
-  "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
-    }
-  ]
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
