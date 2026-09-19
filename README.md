@@ -1,3 +1,5 @@
-# PROJECT 4808 V2.26.20 — iOS Fullscreen Hardening
-Base: V2.26.19.
-Correction globale des bordures/blancs résiduels et des hauteurs de viewport sur iPhone/iOS.
+# PROJECT 4808 — V2.26.21
+
+Correctif iPhone/iOS full-bleed : les écrans et fonds couvrent désormais aussi la zone safe-area inférieure afin d'éviter les bordures blanches ou les zones incomplètes sur iPhone 17 Pro Max et autres iPhone avec Dynamic Island / Home Indicator.
+
+Base : V2.26.20.
