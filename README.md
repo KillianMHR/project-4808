@@ -1,1 +1,1 @@
-PROJECT 4808 V2 Stable\n\nGitHub Pages static PWA. Account local, GPS via browser, official Route des Forts GPX embedded. Service worker intentionally disabled for stability.
+PROJECT 4808 V2.4 — exploration, completed-rando badges, XP motion, local avatar, tutorial, iPhone safe-area polish, Mont Blanc countdown. Catalogue France is a curated starter catalogue; national exhaustive data requires a dedicated licensed/open data source.
