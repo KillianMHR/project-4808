@@ -81,9 +81,9 @@ footer{color:#647890;font-size:11px;text-align:center;margin:25px 0}
     <div class="nav-pill"><strong id="hikeTime">00:00</strong>Temps</div>
     <div class="nav-pill"><strong id="hikeDistance">0.00 km</strong>Distance</div>
     <div class="nav-pill"><strong id="hikeElevation">0 m</strong>D+ estimé</div>
-    <div class="nav-pill"><strong id="gpsAccuracy">—</strong>Précision GPS</div>
+    <div class="nav-pill"><strong id="hikeGpsAccuracy">—</strong>Précision GPS</div>
   </div>
-  <div id="routeStatus">📍 En attente de ta position…</div>
+  <div id="hikeRouteStatus">📍 En attente de ta position…</div>
   <div class="hike-controls">
     <button onclick="recenterHike()">🎯 Recentrer</button>
     <button onclick="toggleFollow()">🧭 Suivi carte</button>
@@ -212,10 +212,7 @@ function render(){
  document.getElementById("quests").innerHTML=quests.map(q=>{
   const done=state.done.includes(q.id), unlocked=q.id===1||state.done.includes(q.id-1);
   return `<div class="quest ${!unlocked?'locked':''}"><div class="qtop"><div class="qtitle">${done?'✅ ':!unlocked?'🔒 ':''}${q.name}
-<div class="quest-actions">
-  <button class="start-hike" id="startHikeBtn" onclick="startRouteDesForts()">🚀 COMMENCER LA RANDONNÉE</button>
-</div>
-</div><div class="tag">${q.xp} XP</div></div><div class="details"><span>📏 ${q.km} km</span><span>⛰️ +${q.elev} m</span><span>🎯 ${q.diff}</span></div>${unlocked&&!done?`<div class="row"><button class="btn" onclick="startQuest(${q.id})">Commencer</button><button class="btn secondary" onclick="details(${q.id})">Détails</button></div>`:done?`<button class="btn secondary" onclick="details(${q.id})">Voir la quête</button>`:`<div class="muted" style="font-size:12px">Termine la quête précédente pour débloquer celle-ci.</div>`}</div>`
+</div><div class="tag">${q.xp} XP</div></div><div class="details"><span>📏 ${q.km} km</span><span>⛰️ +${q.elev} m</span><span>🎯 ${q.diff}</span></div>${unlocked&&!done?`<div class="row">${q.id===1?`<button class="btn start-hike" id="startHikeBtn" onclick="startRouteDesForts()">🚀 COMMENCER LA RANDONNÉE</button>`:`<button class="btn" onclick="startQuest(${q.id})">Commencer</button>`}<button class="btn secondary" onclick="details(${q.id})">Détails</button></div>`:done?`<button class="btn secondary" onclick="details(${q.id})">Voir la quête</button>`:`<div class="muted" style="font-size:12px">Termine la quête précédente pour débloquer celle-ci.</div>`}</div>`
  }).join("");
 }
 function initMap(){
@@ -282,7 +279,7 @@ function clearRoute(){
  if(routeLayer){map.removeLayer(routeLayer);routeLayer=null;}
  routePoints=[];
  document.getElementById('routeStatus').className='route-status';
- document.getElementById('routeStatus').textContent='Charge un GPX pour activer le suivi du tracé et l’alerte hors parcours.';
+ document.getElementById('hikeRouteStatus').textContent='Charge un GPX pour activer le suivi du tracé et l’alerte hors parcours.';
  document.getElementById('gpxInput').value='';
 }
 function onGeoErr(e){document.getElementById('mapHint').textContent='GPS indisponible : '+e.message+' — tu peux quand même tester le système de quêtes.';}
@@ -366,7 +363,7 @@ function startRouteDesForts(){
   map.fitBounds(hikeState.routeLayer.getBounds(),{padding:[30,30]});
   hikeTimer=setInterval(updateHikeUI,1000);
   if(!navigator.geolocation){
-    document.getElementById('routeStatus').textContent='⚠️ GPS indisponible sur cet appareil.';
+    document.getElementById('hikeRouteStatus').textContent='⚠️ GPS indisponible sur cet appareil.';
     return;
   }
   hikeState.watchId=navigator.geolocation.watchPosition(onHikePosition, onHikeError, {
@@ -376,7 +373,7 @@ function startRouteDesForts(){
 function onHikePosition(p){
   const lat=p.coords.latitude, lon=p.coords.longitude, acc=p.coords.accuracy||0;
   const cur=[lat,lon];
-  document.getElementById('gpsAccuracy').textContent=Math.round(acc)+' m';
+  document.getElementById('hikeGpsAccuracy').textContent=Math.round(acc)+' m';
   if(!hikeState.marker){
     hikeState.marker=L.circleMarker(cur,{radius:9,weight:3,fillOpacity:1}).addTo(map);
     hikeState.accuracyCircle=L.circle(cur,{radius:acc,weight:1,fillOpacity:.08}).addTo(map);
@@ -400,7 +397,7 @@ function onHikePosition(p){
   updateHikeUI();
 }
 function onHikeError(e){
-  document.getElementById('routeStatus').textContent='⚠️ GPS : '+(e.message||'position indisponible');
+  document.getElementById('hikeRouteStatus').textContent='⚠️ GPS : '+(e.message||'position indisponible');
 }
 function recenterHike(){
   if(hikeState.marker) map.setView(hikeState.marker.getLatLng(),17,{animate:true});
@@ -422,8 +419,8 @@ function finishHike(){
     localStorage.setItem('p4808_xp',String(oldXP+xp));
     localStorage.setItem('p4808_last_hike',JSON.stringify({name:'Route des Forts',km,dp:hikeState.elevation,xp,date:new Date().toISOString()}));
   }catch(e){}
-  document.getElementById('routeStatus').textContent='🏆 Randonnée terminée — +'+xp+' XP !';
-  document.getElementById('startHikeBtn').disabled=false;
+  document.getElementById('hikeRouteStatus').textContent='🏆 Randonnée terminée — +'+xp+' XP !';
+  if(document.getElementById('startHikeBtn')) document.getElementById('startHikeBtn').disabled=false;
 }
 </script>
 <script>
