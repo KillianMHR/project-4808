@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08111f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>PROJECT 4808 — TEST</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--bg:#07101d;--card:#101c2d;--card2:#14243a;--text:#f7fbff;--muted:#91a2b7;--accent:#5ee7ff;--gold:#ffd166;--green:#62e6a8;--danger:#ff6b7a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#12314b 0,#07101d 38%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;min-height:100vh}
+.app{max-width:760px;margin:auto;padding:env(safe-area-inset-top) 16px calc(28px + env(safe-area-inset-bottom))}
+header{padding:22px 2px 14px;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:900;letter-spacing:.08em}.brand small{display:block;color:var(--muted);font-weight:600;letter-spacing:.02em;margin-top:3px}.pill{border:1px solid #29405b;background:#0d1928;padding:8px 10px;border-radius:999px;font-size:12px;color:var(--accent)}
+.hero{background:linear-gradient(145deg,#122941,#0d1828);border:1px solid #263d57;border-radius:24px;padding:22px;box-shadow:0 18px 45px #0005}.hero h1{font-size:30px;margin:0 0 5px}.hero p{margin:0;color:var(--muted)}.level{display:flex;justify-content:space-between;align-items:end;margin-top:24px}.level strong{font-size:25px}.xpbar{height:10px;background:#24364d;border-radius:20px;overflow:hidden;margin-top:9px}.xpfill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#8aa8ff);transition:.35s}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.stat{background:var(--card);border:1px solid #21354c;border-radius:17px;padding:13px}.stat b{font-size:19px}.stat span{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+h2{font-size:18px;margin:26px 2px 11px}.quest{background:var(--card);border:1px solid #223950;border-radius:20px;padding:16px;margin-bottom:10px}.quest.locked{opacity:.55}.qtop{display:flex;justify-content:space-between;gap:10px}.qtitle{font-weight:800}.tag{font-size:11px;padding:5px 8px;border-radius:999px;background:#173248;color:var(--accent);white-space:nowrap}.details{display:flex;gap:15px;color:var(--muted);font-size:12px;margin:11px 0}.btn{border:0;border-radius:13px;padding:12px 14px;font-weight:800;background:var(--accent);color:#06101a;cursor:pointer;width:100%}.btn.secondary{background:#1a2b40;color:var(--text)}.btn.gold{background:var(--gold)}.row{display:flex;gap:8px}.row .btn{flex:1}
+#map{height:430px;border-radius:20px;overflow:hidden;border:1px solid #28405a}
+.loc-dot{width:22px;height:22px;border-radius:50%;background:#149dff;border:4px solid #fff;box-shadow:0 2px 12px #0008;position:relative}
+.loc-dot:after{content:"";position:absolute;inset:-9px;border:2px solid #149dff55;border-radius:50%;animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{transform:scale(.75);opacity:.3}50%{transform:scale(1.15);opacity:.8}}
+.navbar{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.navbadge{background:#0d1c2c;border:1px solid #27415d;border-radius:12px;padding:8px 10px;font-size:12px;color:#b8c9da}
+.navbadge b{color:#fff}
+.alert-off{background:#3a1d25!important;color:#ff9aaa!important}
+.route-status{font-size:12px;padding:10px 12px;border-radius:12px;margin-top:10px;background:#102238;color:#a9c4dc}
+.route-status.ok{background:#103426;color:#72efb5}
+.route-status.warn{background:#3a2a12;color:#ffd166}
+.route-status.danger{background:#401c25;color:#ff8798}
+.mapbox{background:var(--card);padding:12px;border-radius:22px;border:1px solid #223950}
+.tracking{display:none}.tracking.active{display:block}.big{font-size:34px;font-weight:900}.muted{color:var(--muted)}.finish{display:none;text-align:center;background:linear-gradient(145deg,#18372f,#11231f);border:1px solid #2d725f;border-radius:22px;padding:22px;margin-top:12px}.finish.show{display:block}.finish .reward{font-size:42px;font-weight:900;color:var(--gold)}
+.modal{position:fixed;inset:0;background:#0009;display:none;align-items:flex-end;z-index:1000}.modal.show{display:flex}.sheet{background:#0b1726;width:100%;border-radius:25px 25px 0 0;padding:20px;max-height:85vh;overflow:auto}.sheet h3{margin-top:0}.close{float:right;background:#20334a;color:white;border:0;border-radius:50%;width:34px;height:34px}
+.file{padding:14px;border:1px dashed #46627f;border-radius:15px;margin:10px 0;color:var(--muted)}
+footer{color:#647890;font-size:11px;text-align:center;margin:25px 0}
+@media(max-width:430px){.grid{grid-template-columns:repeat(3,1fr)}.stat{padding:11px 9px}.stat b{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">PROJECT 4808<small>TEST • MONT BLANC 2028</small></div><div class="pill">BETA</div></header>
+
+<section class="hero">
+  <h1>🏔️ Ton ascension commence ici.</h1>
+  <p>Chaque randonnée te rapproche du sommet.</p>
+  <div class="level"><div><div class="muted">Niveau</div><strong id="levelName">1 • Débutant</strong></div><div><strong id="xpText">0 XP</strong></div></div>
+  <div class="xpbar"><div class="xpfill" id="xpFill"></div></div>
+  <div class="muted" id="nextText" style="margin-top:7px;font-size:12px"></div>
+</section>
+
+<div class="grid">
+  <div class="stat"><b id="hikes">0</b><span>Randonnées</span></div>
+  <div class="stat"><b id="km">0.0</b><span>km</span></div>
+  <div class="stat"><b id="elev">0</b><span>m D+</span></div>
+</div>
+
+<h2>🎯 Quêtes</h2>
+<div id="quests"></div>
+
+<h2>🧭 Navigation / GPS</h2>
+<div class="mapbox">
+  <div id="map"></div>
+  <div class="tracking" id="trackingPanel">
+    <div style="display:flex;justify-content:space-between;margin-top:13px"><div><div class="muted">Distance</div><div class="big" id="liveDist">0.00 km</div></div><div><div class="muted">Temps</div><div class="big" id="liveTime">00:00</div></div></div>
+    <div class="navbar">
+      <div class="navbadge">📍 <b id="gpsAccuracy">—</b> précision</div>
+      <div class="navbadge">⚡ <b id="gpsSpeed">—</b> km/h</div>
+      <button class="btn secondary" style="width:auto" onclick="recenterMap()">🎯 Recentrer</button>
+      <button id="followBtn" class="btn secondary" style="width:auto" onclick="toggleFollow()">🧭 Suivi ON</button>
+    </div>
+    <div id="routeStatus" class="route-status">Charge un GPX pour activer le suivi du tracé et l'alerte hors parcours.</div>
+    <div class="row" style="margin-top:12px"><button class="btn secondary" onclick="stopTracking()">Arrêter</button><button class="btn gold" onclick="finishQuest()">Terminer la quête</button></div>
+  </div>
+  <div id="mapHint" class="muted" style="font-size:12px;padding:10px 2px 0">Mode navigation : ta position sera suivie en temps réel. Pour le vrai tracé de la randonnée, importe le GPX officiel.</div>
+  <div class="file"><input id="gpxInput" type="file" accept=".gpx,application/gpx+xml" onchange="importGPX(event)"></div>
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <a class="btn secondary" style="text-decoration:none;text-align:center" href="https://www.encotentin.fr/itineraire/la-route-des-forts/" target="_blank">↗ GPX officiel / fiche</a>
+    <button class="btn secondary" onclick="clearRoute()">Effacer le tracé</button>
+  </div>
+</div>
+
+<div class="finish" id="finish"><div style="font-size:18px;font-weight:800">🎉 QUÊTE TERMINÉE</div><div class="reward" id="reward">+250 XP</div><div id="finishStats" class="muted"></div></div>
+
+<h2>🏆 Progression</h2>
+<div class="quest"><div class="qtop"><div class="qtitle">Objectif final</div><div class="tag">🔒 4 808 m</div></div><p class="muted">Compléter les étapes de préparation avant de débloquer la quête Mont Blanc 2028.</p><div class="xpbar"><div class="xpfill" id="goalFill"></div></div></div>
+
+<div class="quest" style="margin-top:14px;border-color:#55472a;background:#17170f">
+  <div class="qtitle">⚠️ GPS = aide à la navigation</div>
+  <p class="muted" style="font-size:12px;margin-bottom:0">Le téléphone peut perdre le signal, surtout sous les arbres ou en relief. Pour une randonnée réelle, garde aussi une carte/trace hors ligne et une batterie suffisante.</p>
+</div>
+<footer>Prototype personnel • Données enregistrées sur cet appareil. Le GPS nécessite l'autorisation de localisation.</footer>
+</div>
+
+<div class="modal" id="modal"><div class="sheet"><button class="close" onclick="closeModal()">×</button><h3 id="modalTitle"></h3><div id="modalBody"></div></div></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const quests=[
+ {id:1,name:"La Route des Forts",place:"Équeurdreville-Hainneville",km:9.8,elev:178,xp:250,diff:"Débutant",unlock:true,official:"https://www.encotentin.fr/itineraire/la-route-des-forts/"},
+ {id:2,name:"Les Panoramas Cherbourgeois",place:"Cherbourg-en-Cotentin",km:7.2,elev:99,xp:180,diff:"Débutant",unlock:false,official:"https://www.encotentin.fr/cherbourg/randonnees/"},
+ {id:3,name:"Cap à l’est",place:"Cherbourg-en-Cotentin",km:10.7,elev:229,xp:300,diff:"Facile",unlock:false,official:"https://www.encotentin.fr/cherbourg/randonnees/"},
+ {id:4,name:"Les chemins du Becquet",place:"Cherbourg-en-Cotentin",km:16.6,elev:283,xp:500,diff:"Intermédiaire",unlock:false,official:"https://www.encotentin.fr/cherbourg/randonnees/"}
+];
+let state=JSON.parse(localStorage.getItem("p4808")||'{"xp":0,"hikes":0,"km":0,"elev":0,"done":[],"active":null}');
+let map,marker,accuracyCircle,routeLayer,breadcrumbLayer,watchId,startTime,timer,distance=0,lastPos=null,currentQuest=null;
+let followMap=true, trackPoints=[], routePoints=[];
+
+function levelFor(xp){let n=1,need=500;while(xp>=need&&n<50){n++;need=Math.round(500*Math.pow(1.13,n-1));}return {n,need,prev:n===1?0:Math.round(500*Math.pow(1.13,n-2))};}
+function save(){localStorage.setItem("p4808",JSON.stringify(state));}
+function render(){
+ const l=levelFor(state.xp), pct=Math.min(100,((state.xp-l.prev)/(l.need-l.prev))*100);
+ document.getElementById("levelName").textContent=`${l.n} • ${l.n<5?"Débutant":l.n<10?"Randonneur":l.n<20?"Explorateur":l.n<30?"Montagnard":l.n<40?"Alpiniste": "Pré-sommet"}`;
+ document.getElementById("xpText").textContent=state.xp+" XP"; document.getElementById("xpFill").style.width=pct+"%";
+ document.getElementById("nextText").textContent=`${Math.max(0,l.need-state.xp)} XP avant le niveau ${l.n+1}`;
+ document.getElementById("hikes").textContent=state.hikes; document.getElementById("km").textContent=state.km.toFixed(1); document.getElementById("elev").textContent=Math.round(state.elev);
+ document.getElementById("goalFill").style.width=Math.min(100,state.xp/12000*100)+"%";
+ document.getElementById("quests").innerHTML=quests.map(q=>{
+  const done=state.done.includes(q.id), unlocked=q.id===1||state.done.includes(q.id-1);
+  return `<div class="quest ${!unlocked?'locked':''}"><div class="qtop"><div class="qtitle">${done?'✅ ':!unlocked?'🔒 ':''}${q.name}</div><div class="tag">${q.xp} XP</div></div><div class="details"><span>📏 ${q.km} km</span><span>⛰️ +${q.elev} m</span><span>🎯 ${q.diff}</span></div>${unlocked&&!done?`<div class="row"><button class="btn" onclick="startQuest(${q.id})">Commencer</button><button class="btn secondary" onclick="details(${q.id})">Détails</button></div>`:done?`<button class="btn secondary" onclick="details(${q.id})">Voir la quête</button>`:`<div class="muted" style="font-size:12px">Termine la quête précédente pour débloquer celle-ci.</div>`}</div>`
+ }).join("");
+}
+function initMap(){
+ map=L.map('map').setView([49.657,-1.672],13);
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+ breadcrumbLayer=L.polyline([],{color:'#149dff',weight:5,opacity:.9,lineCap:'round'}).addTo(map);
+ map.on('dragstart zoomstart',()=>{ if(followMap){followMap=false;document.getElementById('followBtn').textContent='🧭 Suivi OFF';}});
+}
+function details(id){const q=quests.find(x=>x.id===id);openModal(q.name,`<p class="muted">${q.place}</p><p>📏 <b>${q.km} km</b><br>⛰️ <b>+${q.elev} m D+</b><br>🏆 <b>${q.xp} XP</b><br>🎯 ${q.diff}</p><p>Pour le tracé officiel de la Route des Forts, utilise le bouton ci-dessous ou importe son GPX dans cette V0.</p><a class="btn" style="display:block;text-align:center;text-decoration:none" href="${q.official}" target="_blank">Ouvrir la fiche officielle</a>`)}
+function openModal(t,b){document.getElementById('modalTitle').textContent=t;document.getElementById('modalBody').innerHTML=b;document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function startQuest(id){
+ currentQuest=quests.find(x=>x.id===id); state.active=id; save();
+ document.getElementById('finish').classList.remove('show'); document.getElementById('trackingPanel').classList.add('active'); document.getElementById('mapHint').textContent='GPS actif : garde l’écran visible et autorise la localisation.';
+ startTime=Date.now(); distance=0; lastPos=null; trackPoints=[]; if(breadcrumbLayer)breadcrumbLayer.setLatLngs([]); timer=setInterval(updateTime,1000);
+ if(navigator.geolocation){watchId=navigator.geolocation.watchPosition(onPos,onGeoErr,{enableHighAccuracy:true,maximumAge:3000,timeout:15000});}
+ else alert("GPS non disponible sur cet appareil/navigateur.");
+ window.scrollTo({top:document.getElementById('map').offsetTop-30,behavior:'smooth'});
+}
+function onPos(p){
+ const {latitude,longitude,accuracy,speed,heading}=p.coords;
+ const pos=[latitude,longitude];
+ if(!marker){
+   const icon=L.divIcon({className:'',html:'<div class="loc-dot"></div>',iconSize:[22,22],iconAnchor:[11,11]});
+   marker=L.marker(pos,{icon,zIndexOffset:1000}).addTo(map);
+ } else marker.setLatLng(pos);
+ if(!accuracyCircle) accuracyCircle=L.circle(pos,{radius:accuracy||10,color:'#149dff',weight:1,fillOpacity:.08}).addTo(map);
+ else accuracyCircle.setLatLng(pos).setRadius(accuracy||10);
+ trackPoints.push(pos);
+ if(breadcrumbLayer) breadcrumbLayer.setLatLngs(trackPoints);
+ if(followMap) map.setView(pos,Math.max(map.getZoom(),16),{animate:true});
+ document.getElementById('gpsAccuracy').textContent=Math.round(accuracy||0)+' m';
+ document.getElementById('gpsSpeed').textContent=(speed!=null&&speed>=0?(speed*3.6).toFixed(1):'—');
+ if(lastPos){
+   const d=haversine(lastPos.lat,lastPos.lon,latitude,longitude);
+   if(d>1 && d<100) distance+=d/1000;
+   document.getElementById('liveDist').textContent=distance.toFixed(2)+' km';
+ }
+ lastPos={lat:latitude,lon:longitude};
+ updateRouteStatus(latitude,longitude);
+}function toggleFollow(){
+ followMap=!followMap;
+ document.getElementById('followBtn').textContent=followMap?'🧭 Suivi ON':'🧭 Suivi OFF';
+ if(followMap && lastPos) map.setView([lastPos.lat,lastPos.lon],Math.max(map.getZoom(),16),{animate:true});
+}
+function recenterMap(){
+ if(lastPos){followMap=true;document.getElementById('followBtn').textContent='🧭 Suivi ON';map.setView([lastPos.lat,lastPos.lon],17,{animate:true});}
+}
+function nearestRouteDistance(lat,lon){
+ if(!routePoints.length)return null;
+ let best=Infinity;
+ for(const p of routePoints) best=Math.min(best,haversine(lat,lon,p[0],p[1]));
+ return best;
+}
+function updateRouteStatus(lat,lon){
+ const el=document.getElementById('routeStatus');
+ if(!routePoints.length){el.className='route-status';el.textContent='Charge un GPX pour activer le suivi du tracé et l’alerte hors parcours.';return;}
+ const d=nearestRouteDistance(lat,lon);
+ if(d<30){el.className='route-status ok';el.textContent='✓ Tu es sur le tracé • '+Math.round(d)+' m du chemin';}
+ else if(d<80){el.className='route-status warn';el.textContent='⚠️ Tu t’éloignes du tracé • '+Math.round(d)+' m';}
+ else {el.className='route-status danger';el.textContent='🚨 Hors parcours • '+Math.round(d)+' m du tracé';}
+}
+function clearRoute(){
+ if(routeLayer){map.removeLayer(routeLayer);routeLayer=null;}
+ routePoints=[];
+ document.getElementById('routeStatus').className='route-status';
+ document.getElementById('routeStatus').textContent='Charge un GPX pour activer le suivi du tracé et l’alerte hors parcours.';
+ document.getElementById('gpxInput').value='';
+}
+function onGeoErr(e){document.getElementById('mapHint').textContent='GPS indisponible : '+e.message+' — tu peux quand même tester le système de quêtes.';}
+function haversine(a,b,c,d){const R=6371000,rad=Math.PI/180;const x=(c-a)*rad,y=(d-b)*rad;const h=Math.sin(x/2)**2+Math.cos(a*rad)*Math.cos(c*rad)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+function updateTime(){let s=Math.floor((Date.now()-startTime)/1000),m=Math.floor(s/60),h=Math.floor(m/60);m%=60;s%=60;document.getElementById('liveTime').textContent=(h?String(h).padStart(2,'0')+':':'')+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
+function stopTracking(){if(watchId!==undefined)navigator.geolocation.clearWatch(watchId);clearInterval(timer);document.getElementById('trackingPanel').classList.remove('active');state.active=null;save();}
+function finishQuest(){
+ if(!currentQuest)return;
+ if(watchId!==undefined)navigator.geolocation.clearWatch(watchId);clearInterval(timer);
+ state.xp+=currentQuest.xp;state.hikes++;state.km+=currentQuest.km;state.elev+=currentQuest.elev;
+ if(!state.done.includes(currentQuest.id))state.done.push(currentQuest.id);state.active=null;save();
+ document.getElementById('reward').textContent='+'+currentQuest.xp+' XP';
+ document.getElementById('finishStats').textContent=`${currentQuest.km} km • +${currentQuest.elev} m D+ • distance GPS mesurée : ${distance.toFixed(2)} km`;
+ document.getElementById('finish').classList.add('show');document.getElementById('trackingPanel').classList.remove('active');render();
+ window.scrollTo({top:document.getElementById('finish').offsetTop-40,behavior:'smooth'});
+}
+function importGPX(e){
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();
+ r.onload=()=>{
+   const xml=new DOMParser().parseFromString(r.result,'application/xml');
+   const pts=[...xml.querySelectorAll('trkpt')].map(p=>[+p.getAttribute('lat'),+p.getAttribute('lon')]).filter(x=>x.every(Number.isFinite));
+   if(!pts.length){alert('GPX non reconnu.');return;}
+   routePoints=pts;
+   if(routeLayer)map.removeLayer(routeLayer);
+   routeLayer=L.polyline(pts,{color:'#12bce6',weight:6,opacity:.9,lineCap:'round'}).addTo(map);
+   routeLayer.bringToBack();
+   map.fitBounds(routeLayer.getBounds(),{padding:[20,20]});
+   document.getElementById('mapHint').textContent=`GPX chargé : ${pts.length} points. Le tracé bleu est affiché. Lance la quête pour activer le suivi GPS.`;
+   if(lastPos)updateRouteStatus(lastPos.lat,lastPos.lon);
+ };
+ r.readAsText(f);
+}
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
