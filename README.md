@@ -1,5 +1,5 @@
-# PROJECT 4808 — V2.26.26
+# HIKE+ — Bêta
 
-Ajout : durée du compte à rebours de départ configurable dans Paramètres : 5, 10, 15, 20, 30, 35 ou 60 secondes. Valeur par défaut : 20 secondes.
+Application de randonnée en phase bêta : navigation GPS, progression, XP, niveaux, difficultés et randonnées disponibles.
 
-Toutes les autres fonctions de V2.26.25 sont conservées.
+Les badges sont verrouillés pendant la bêta et seront disponibles prochainement. De nouvelles randonnées seront ajoutées prochainement.

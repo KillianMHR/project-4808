@@ -1,13 +1,11 @@
 {
-  "name": "PROJECT 4808",
-  "short_name": "PROJECT 4808",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#101210",
-  "theme_color": "#101210",
-  "lang": "fr",
-  "icons": [
-    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
-  ]
+  "name":"HIKE+",
+  "short_name":"HIKE+",
+  "start_url":"./index.html",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#101210",
+  "theme_color":"#101210",
+  "lang":"fr",
+  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }
