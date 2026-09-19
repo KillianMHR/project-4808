@@ -9,6 +9,7 @@
 <title>PROJECT 4808 — TEST</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root{--bg:#07101d;--card:#101c2d;--card2:#14243a;--text:#f7fbff;--muted:#91a2b7;--accent:#5ee7ff;--gold:#ffd166;--green:#62e6a8;--danger:#ff6b7a}
@@ -95,7 +96,29 @@ footer{color:#647890;font-size:11px;text-align:center;margin:25px 0}
 
 <div class="modal" id="modal"><div class="sheet"><button class="close" onclick="closeModal()">×</button><h3 id="modalTitle"></h3><div id="modalBody"></div></div></div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+window.leafletReady = new Promise((resolve) => {
+  if (window.L) return resolve();
+  const sources = [
+    "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js",
+    "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  ];
+  let i = 0;
+  function next(){
+    if(i >= sources.length){
+      document.getElementById("mapHint").textContent =
+        "⚠️ La carte ne se charge pas. Vérifie ta connexion Internet puis recharge l'application.";
+      return;
+    }
+    const s = document.createElement("script");
+    s.src = sources[i++];
+    s.onload = () => resolve();
+    s.onerror = next;
+    document.head.appendChild(s);
+  }
+  next();
+});
+</script>
 <script>
 const quests=[
  {id:1,name:"La Route des Forts",place:"Équeurdreville-Hainneville",km:9.8,elev:178,xp:250,diff:"Débutant",unlock:true,official:"https://www.encotentin.fr/itineraire/la-route-des-forts/"},
@@ -219,6 +242,18 @@ function importGPX(e){
  };
  r.readAsText(f);
 }
+</script>
+<script>
+window.addEventListener("load", () => {
+  window.leafletReady.then(() => {
+    if(window.L) {
+      initMap();
+    } else {
+      document.getElementById("mapHint").textContent =
+        "⚠️ Impossible de charger le moteur de carte. Recharge la page avec Internet.";
+    }
+  });
+});
 </script>
 <script>
 if('serviceWorker' in navigator){
