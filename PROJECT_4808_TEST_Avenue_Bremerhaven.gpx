@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="PROJECT 4808" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>PROJECT 4808 - Test Avenue de Bremerhaven</name></metadata>
+  <trk><name>Test GPS - Avenue de Bremerhaven</name><trkseg>
+    <trkpt lat="49.63097827" lon="-1.60593033"><ele>5</ele></trkpt>
+    <trkpt lat="49.63130000" lon="-1.60545000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63165000" lon="-1.60495000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63205000" lon="-1.60450000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63245000" lon="-1.60405000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63285000" lon="-1.60370000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63320000" lon="-1.60325000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63355000" lon="-1.60290000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63385000" lon="-1.60335000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63355000" lon="-1.60385000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63315000" lon="-1.60430000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63275000" lon="-1.60475000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63235000" lon="-1.60520000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63195000" lon="-1.60565000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63155000" lon="-1.60610000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63120000" lon="-1.60630000"><ele>5</ele></trkpt>
+    <trkpt lat="49.63097827" lon="-1.60593033"><ele>5</ele></trkpt>
+  </trkseg></trk>
+</gpx>

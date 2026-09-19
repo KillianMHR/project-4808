@@ -1,17 +1,1 @@
-{
-  "name": "PROJECT 4808 — Mont Blanc 2028",
-  "short_name": "PROJECT 4808",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#07101d",
-  "theme_color": "#08111f",
-  "description": "Application personnelle de progression randonnée vers Mont Blanc 2028.",
-  "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
-}
+{"name":"PROJECT 4808 — Test V0.5","short_name":"PROJECT 4808","start_url":"./index.html","display":"standalone","background_color":"#07111f","theme_color":"#07111f","lang":"fr","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]}
