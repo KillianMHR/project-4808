@@ -1,5 +1,5 @@
-# PROJECT 4808 V2.26.25 — Countdown de départ
+# PROJECT 4808 — V2.26.26
 
-Base : V2.26.24 IOS STATUSBAR.
+Ajout : durée du compte à rebours de départ configurable dans Paramètres : 5, 10, 15, 20, 30, 35 ou 60 secondes. Valeur par défaut : 20 secondes.
 
-Ajout : lorsqu’une randonnée réelle est lancée avec « Commencer la randonnée », un compte à rebours plein écran de 20 secondes s’affiche avant le démarrage officiel du chrono et du suivi GPS. Le compte à rebours affiche « C’est parti ! » à la fin puis lance la navigation. La simulation n’est pas modifiée.
+Toutes les autres fonctions de V2.26.25 sont conservées.
