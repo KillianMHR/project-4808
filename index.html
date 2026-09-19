@@ -38,6 +38,20 @@ h2{font-size:18px;margin:26px 2px 11px}.quest{background:var(--card);border:1px 
 footer{color:#647890;font-size:11px;text-align:center;margin:25px 0}
 @media(max-width:430px){.grid{grid-template-columns:repeat(3,1fr)}.stat{padding:11px 9px}.stat b{font-size:17px}}
 </style>
+<style>
+.quest-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.start-hike{border:0;border-radius:12px;padding:11px 15px;font-weight:800;cursor:pointer;background:#35d07f;color:#07131d}
+.start-hike:disabled{opacity:.55;cursor:not-allowed}
+.nav-status{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.nav-pill{background:#0d1d30;border:1px solid #29415d;border-radius:10px;padding:8px 11px;font-size:13px}
+.nav-pill strong{display:block;font-size:17px;color:#fff}
+.hike-banner{display:none;background:#102a20;border:1px solid #2b8a5a;border-radius:12px;padding:12px;margin-bottom:10px}
+.hike-banner.show{display:block}
+.hike-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.hike-controls button{border:1px solid #36506d;background:#12243a;color:#fff;border-radius:10px;padding:9px 12px;font-weight:700}
+.hike-controls .danger{background:#3a1720;border-color:#7d3544}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -60,6 +74,22 @@ footer{color:#647890;font-size:11px;text-align:center;margin:25px 0}
 <h2>🎯 Quêtes</h2>
 <div id="quests"></div>
 
+
+<div class="hike-banner" id="hikeBanner">
+  <b>🏔️ Route des Forts en cours</b>
+  <div class="nav-status">
+    <div class="nav-pill"><strong id="hikeTime">00:00</strong>Temps</div>
+    <div class="nav-pill"><strong id="hikeDistance">0.00 km</strong>Distance</div>
+    <div class="nav-pill"><strong id="hikeElevation">0 m</strong>D+ estimé</div>
+    <div class="nav-pill"><strong id="gpsAccuracy">—</strong>Précision GPS</div>
+  </div>
+  <div id="routeStatus">📍 En attente de ta position…</div>
+  <div class="hike-controls">
+    <button onclick="recenterHike()">🎯 Recentrer</button>
+    <button onclick="toggleFollow()">🧭 Suivi carte</button>
+    <button class="danger" onclick="finishHike()">🏁 Terminer la randonnée</button>
+  </div>
+</div>
 <h2>🧭 Navigation / GPS</h2>
 <div class="mapbox">
   <div id="map"></div>
@@ -96,6 +126,46 @@ footer{color:#647890;font-size:11px;text-align:center;margin:25px 0}
 
 <div class="modal" id="modal"><div class="sheet"><button class="close" onclick="closeModal()">×</button><h3 id="modalTitle"></h3><div id="modalBody"></div></div></div>
 
+
+<script>
+const PROJECT4808_ROUTE = [
+  [49.64095, -1.67490],
+  [49.64160, -1.67620],
+  [49.64235, -1.67800],
+  [49.64305, -1.68020],
+  [49.64370, -1.68240],
+  [49.64410, -1.68510],
+  [49.64475, -1.68790],
+  [49.64525, -1.69060],
+  [49.64605, -1.69310],
+  [49.64700, -1.69540],
+  [49.64770, -1.69800],
+  [49.64845, -1.70070],
+  [49.64930, -1.70310],
+  [49.65010, -1.70560],
+  [49.65100, -1.70820],
+  [49.65180, -1.71090],
+  [49.65260, -1.71340],
+  [49.65340, -1.71600],
+  [49.65420, -1.71850],
+  [49.65510, -1.72100],
+  [49.65600, -1.72320],
+  [49.65680, -1.72550],
+  [49.65755, -1.72800],
+  [49.65820, -1.73070],
+  [49.65880, -1.73330],
+  [49.65945, -1.73590],
+  [49.66010, -1.73850],
+  [49.66070, -1.74100],
+  [49.66120, -1.74350],
+  [49.66160, -1.74600],
+  [49.66180, -1.74840]
+];
+const hikeState = {
+  active:false, startedAt:null, lastPos:null, distance:0, elevation:0,
+  watchId:null, trackLayer:null, routeLayer:null, marker:null, accuracyCircle:null
+};
+</script>
 <script>
 window.leafletReady = new Promise((resolve) => {
   if (window.L) return resolve();
@@ -141,7 +211,11 @@ function render(){
  document.getElementById("goalFill").style.width=Math.min(100,state.xp/12000*100)+"%";
  document.getElementById("quests").innerHTML=quests.map(q=>{
   const done=state.done.includes(q.id), unlocked=q.id===1||state.done.includes(q.id-1);
-  return `<div class="quest ${!unlocked?'locked':''}"><div class="qtop"><div class="qtitle">${done?'✅ ':!unlocked?'🔒 ':''}${q.name}</div><div class="tag">${q.xp} XP</div></div><div class="details"><span>📏 ${q.km} km</span><span>⛰️ +${q.elev} m</span><span>🎯 ${q.diff}</span></div>${unlocked&&!done?`<div class="row"><button class="btn" onclick="startQuest(${q.id})">Commencer</button><button class="btn secondary" onclick="details(${q.id})">Détails</button></div>`:done?`<button class="btn secondary" onclick="details(${q.id})">Voir la quête</button>`:`<div class="muted" style="font-size:12px">Termine la quête précédente pour débloquer celle-ci.</div>`}</div>`
+  return `<div class="quest ${!unlocked?'locked':''}"><div class="qtop"><div class="qtitle">${done?'✅ ':!unlocked?'🔒 ':''}${q.name}
+<div class="quest-actions">
+  <button class="start-hike" id="startHikeBtn" onclick="startRouteDesForts()">🚀 COMMENCER LA RANDONNÉE</button>
+</div>
+</div><div class="tag">${q.xp} XP</div></div><div class="details"><span>📏 ${q.km} km</span><span>⛰️ +${q.elev} m</span><span>🎯 ${q.diff}</span></div>${unlocked&&!done?`<div class="row"><button class="btn" onclick="startQuest(${q.id})">Commencer</button><button class="btn secondary" onclick="details(${q.id})">Détails</button></div>`:done?`<button class="btn secondary" onclick="details(${q.id})">Voir la quête</button>`:`<div class="muted" style="font-size:12px">Termine la quête précédente pour débloquer celle-ci.</div>`}</div>`
  }).join("");
 }
 function initMap(){
@@ -254,6 +328,103 @@ window.addEventListener("load", () => {
     }
   });
 });
+</script>
+
+<script>
+let hikeTimer = null;
+let followMap = true;
+
+function haversine(a,b){
+  const R=6371000, p=Math.PI/180;
+  const dLat=(b[0]-a[0])*p, dLon=(b[1]-a[1])*p;
+  const x=Math.sin(dLat/2)**2 + Math.cos(a[0]*p)*Math.cos(b[0]*p)*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(x));
+}
+function routeDistanceTo(pos){
+  let best=Infinity;
+  for(let i=0;i<PROJECT4808_ROUTE.length;i++) best=Math.min(best,haversine(pos,PROJECT4808_ROUTE[i]));
+  return best;
+}
+function fmtTime(ms){
+  const s=Math.floor(ms/1000), h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60;
+  return (h?String(h).padStart(2,'0')+':':'')+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+function updateHikeUI(){
+  if(!hikeState.active) return;
+  document.getElementById('hikeTime').textContent=fmtTime(Date.now()-hikeState.startedAt);
+  document.getElementById('hikeDistance').textContent=(hikeState.distance/1000).toFixed(2)+' km';
+  document.getElementById('hikeElevation').textContent=Math.round(hikeState.elevation)+' m';
+}
+function startRouteDesForts(){
+  if(hikeState.active) return;
+  hikeState.active=true; hikeState.startedAt=Date.now(); hikeState.distance=0; hikeState.elevation=0;
+  hikeState.lastPos=null;
+  document.getElementById('hikeBanner').classList.add('show');
+  document.getElementById('startHikeBtn').disabled=true;
+  hikeState.routeLayer = L.polyline(PROJECT4808_ROUTE,{weight:6,opacity:.9}).addTo(map);
+  hikeState.trackLayer = L.polyline([],{weight:5,opacity:.9}).addTo(map);
+  map.fitBounds(hikeState.routeLayer.getBounds(),{padding:[30,30]});
+  hikeTimer=setInterval(updateHikeUI,1000);
+  if(!navigator.geolocation){
+    document.getElementById('routeStatus').textContent='⚠️ GPS indisponible sur cet appareil.';
+    return;
+  }
+  hikeState.watchId=navigator.geolocation.watchPosition(onHikePosition, onHikeError, {
+    enableHighAccuracy:true, maximumAge:2000, timeout:15000
+  });
+}
+function onHikePosition(p){
+  const lat=p.coords.latitude, lon=p.coords.longitude, acc=p.coords.accuracy||0;
+  const cur=[lat,lon];
+  document.getElementById('gpsAccuracy').textContent=Math.round(acc)+' m';
+  if(!hikeState.marker){
+    hikeState.marker=L.circleMarker(cur,{radius:9,weight:3,fillOpacity:1}).addTo(map);
+    hikeState.accuracyCircle=L.circle(cur,{radius:acc,weight:1,fillOpacity:.08}).addTo(map);
+  }else{
+    hikeState.marker.setLatLng(cur);
+    hikeState.accuracyCircle.setLatLng(cur).setRadius(acc);
+  }
+  if(hikeState.lastPos){
+    const d=haversine(hikeState.lastPos,cur);
+    if(d<100 && d>1) hikeState.distance += d;
+    const dz=(p.coords.altitude ?? 0) - (hikeState.lastAltitude ?? (p.coords.altitude ?? 0));
+    if(dz>0 && Math.abs(dz)<30) hikeState.elevation += dz;
+  }
+  hikeState.lastPos=cur;
+  hikeState.lastAltitude=p.coords.altitude;
+  hikeState.trackLayer.addLatLng(cur);
+  const off=routeDistanceTo(cur);
+  document.getElementById('routeStatus').textContent =
+    off<30 ? '🟢 Sur le tracé' : off<80 ? '🟠 Tu t’éloignes du tracé' : '🔴 Hors tracé — vérifie la carte';
+  if(followMap) map.setView(cur,Math.max(map.getZoom(),16),{animate:false});
+  updateHikeUI();
+}
+function onHikeError(e){
+  document.getElementById('routeStatus').textContent='⚠️ GPS : '+(e.message||'position indisponible');
+}
+function recenterHike(){
+  if(hikeState.marker) map.setView(hikeState.marker.getLatLng(),17,{animate:true});
+}
+function toggleFollow(){
+  followMap=!followMap;
+  document.getElementById('routeStatus').textContent = followMap ? '🧭 Suivi carte activé' : '🧭 Suivi carte désactivé';
+}
+function finishHike(){
+  if(!hikeState.active) return;
+  if(!confirm('Terminer la randonnée et enregistrer ta progression ?')) return;
+  hikeState.active=false;
+  if(hikeState.watchId!==null) navigator.geolocation.clearWatch(hikeState.watchId);
+  clearInterval(hikeTimer);
+  const km=hikeState.distance/1000;
+  const xp=Math.max(25,Math.round(50+km*8+hikeState.elevation*0.12));
+  try{
+    const oldXP=Number(localStorage.getItem('p4808_xp')||'0');
+    localStorage.setItem('p4808_xp',String(oldXP+xp));
+    localStorage.setItem('p4808_last_hike',JSON.stringify({name:'Route des Forts',km,dp:hikeState.elevation,xp,date:new Date().toISOString()}));
+  }catch(e){}
+  document.getElementById('routeStatus').textContent='🏆 Randonnée terminée — +'+xp+' XP !';
+  document.getElementById('startHikeBtn').disabled=false;
+}
 </script>
 <script>
 if('serviceWorker' in navigator){
