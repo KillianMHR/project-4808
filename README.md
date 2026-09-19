@@ -1,13 +1,11 @@
-# PROJECT 4808 V2.5 — Manche Map
+# PROJECT 4808 — V2.7 Modern — GitHub
 
-Écran Randonnées refait en mode carte-first pour la Manche.
+Version complète prête pour GitHub Pages.
 
-- marqueurs sur la carte
-- recherche ville/région/randonnée
-- filtres Toutes / Faciles / Déjà faites
-- position GPS
-- fiche randonnée en bottom sheet
-- Route des Forts réellement navigable avec le GPX officiel fourni
-- autres randonnées affichées avec leurs données publiques, mais bouton de départ désactivé tant que leur GPX n’est pas intégré
+- Interface accueil modernisée avec photos
+- Carte des randonnées de la Manche
+- Navigation GPS et tracés GPX
+- Catalogue avec les GPX disponibles intégrés dans `gpx/`
+- Données locales de progression
 
-Sources des données randonnée : Tourisme en Cotentin / Département de la Manche.
+Déposer **tout le contenu de ce dossier** à la racine du dépôt GitHub. Ne pas supprimer le dossier `gpx/`, `manifest.json`, `sw.js` ou `icon.svg`.
