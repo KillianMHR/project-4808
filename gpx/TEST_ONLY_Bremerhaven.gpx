@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="PROJECT 4808" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>TEST ONLY</name><desc>Tracé synthétique de test uniquement — non destiné à la randonnée réelle.</desc></metadata>
+  <trk><name>TEST ONLY</name><trkseg>
+    <trkpt lat="49.63097827" lon="-1.60593033"><ele>8</ele></trkpt>
+    <trkpt lat="49.63125000" lon="-1.60550000"><ele>9</ele></trkpt>
+    <trkpt lat="49.63156000" lon="-1.60500000"><ele>10</ele></trkpt>
+    <trkpt lat="49.63185000" lon="-1.60445000"><ele>11</ele></trkpt>
+    <trkpt lat="49.63210000" lon="-1.60385000"><ele>12</ele></trkpt>
+    <trkpt lat="49.63235000" lon="-1.60330000"><ele>13</ele></trkpt>
+    <trkpt lat="49.63265000" lon="-1.60295000"><ele>14</ele></trkpt>
+    <trkpt lat="49.63290000" lon="-1.60325000"><ele>14</ele></trkpt>
+    <trkpt lat="49.63275000" lon="-1.60385000"><ele>13</ele></trkpt>
+    <trkpt lat="49.63250000" lon="-1.60440000"><ele>12</ele></trkpt>
+    <trkpt lat="49.63220000" lon="-1.60495000"><ele>11</ele></trkpt>
+    <trkpt lat="49.63190000" lon="-1.60545000"><ele>10</ele></trkpt>
+    <trkpt lat="49.63160000" lon="-1.60590000"><ele>9</ele></trkpt>
+    <trkpt lat="49.63130000" lon="-1.60625000"><ele>8</ele></trkpt>
+    <trkpt lat="49.63105000" lon="-1.60610000"><ele>8</ele></trkpt>
+    <trkpt lat="49.63097827" lon="-1.60593033"><ele>8</ele></trkpt>
+  </trkseg></trk>
+</gpx>

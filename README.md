@@ -16,3 +16,7 @@ Version GitHub complète — randonnées de la Manche.
 
 ## GitHub Pages
 Mettre tous les fichiers et le dossier `gpx/` à la racine du dépôt.
+
+
+## Test-only route
+`gpx/TEST_ONLY_Bremerhaven.gpx` is a synthetic local test route labeled **TEST ONLY**. It is not an official hiking route and must not be treated as a real trail.
