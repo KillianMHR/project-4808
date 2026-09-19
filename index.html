@@ -213,11 +213,11 @@ function render(){
  document.getElementById("quests").innerHTML=quests.map(q=>{
   const done=state.done.includes(q.id), unlocked=q.id===1||state.done.includes(q.id-1);
   return `<div class="quest ${!unlocked?'locked':''}"><div class="qtop"><div class="qtitle">${done?'✅ ':!unlocked?'🔒 ':''}${q.name}
-</div><div class="tag">${q.xp} XP</div></div><div class="details"><span>📏 ${q.km} km</span><span>⛰️ +${q.elev} m</span><span>🎯 ${q.diff}</span></div>${unlocked&&!done?`<div class="row">${q.id===1?`<button class="btn start-hike" id="startHikeBtn" onclick="startRouteDesForts()">🚀 COMMENCER LA RANDONNÉE</button>`:`<button class="btn" onclick="startQuest(${q.id})">Commencer</button>`}<button class="btn secondary" onclick="details(${q.id})">Détails</button></div>`:done?`<button class="btn secondary" onclick="details(${q.id})">Voir la quête</button>`:`<div class="muted" style="font-size:12px">Termine la quête précédente pour débloquer celle-ci.</div>`}</div>`
+</div><div class="tag">${q.xp} XP</div></div><div class="details"><span>📏 ${q.km} km</span><span>⛰️ +${q.elev} m</span><span>🎯 ${q.diff}</span></div>${unlocked&&!done?`<div class="row">${q.id===1?`<button class="btn start-hike" id="startHikeBtn" onclick="window.startRouteDesForts()">🚀 COMMENCER LA RANDONNÉE</button>`:`<button class="btn" onclick="startQuest(${q.id})">Commencer</button>`}<button class="btn secondary" onclick="details(${q.id})">Détails</button></div>`:done?`<button class="btn secondary" onclick="details(${q.id})">Voir la quête</button>`:`<div class="muted" style="font-size:12px">Termine la quête précédente pour débloquer celle-ci.</div>`}</div>`
  }).join("");
 }
 function initMap(){
- map=L.map('map').setView([49.657,-1.672],13);
+ window.map=L.map('map').setView([49.657,-1.672],13);
  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
  breadcrumbLayer=L.polyline([],{color:'#149dff',weight:5,opacity:.9,lineCap:'round'}).addTo(map);
  map.on('dragstart zoomstart',()=>{ if(followMap){followMap=false;document.getElementById('followBtn').textContent='🧭 Suivi OFF';}});
@@ -356,23 +356,57 @@ function updateHikeUI(){
   document.getElementById('hikeElevation').textContent=Math.round(hikeState.elevation)+' m';
 }
 function startRouteDesForts(){
-  if(hikeState.active) return;
-  hikeState.active=true; hikeState.startedAt=Date.now(); hikeState.distance=0; hikeState.elevation=0;
-  hikeState.lastPos=null;
-  document.getElementById('hikeBanner').classList.add('show');
-  document.getElementById('startHikeBtn').disabled=true;
-  hikeState.routeLayer = L.polyline(PROJECT4808_ROUTE,{weight:6,opacity:.9}).addTo(map);
-  hikeState.trackLayer = L.polyline([],{weight:5,opacity:.9}).addTo(map);
-  map.fitBounds(hikeState.routeLayer.getBounds(),{padding:[30,30]});
-  hikeTimer=setInterval(updateHikeUI,1000);
-  if(!navigator.geolocation){
-    document.getElementById('hikeRouteStatus').textContent='⚠️ GPS indisponible sur cet appareil.';
-    return;
+  try{
+    if(hikeState.active) return;
+    if(!window.L){
+      alert("La carte n'est pas encore prête. Attends une seconde puis réessaie.");
+      return;
+    }
+    if(!window.map){
+      alert("La carte n'est pas initialisée. Recharge la page puis réessaie.");
+      return;
+    }
+    hikeState.active=true;
+    hikeState.startedAt=Date.now();
+    hikeState.distance=0;
+    hikeState.elevation=0;
+    hikeState.lastPos=null;
+    hikeState.lastAltitude=null;
+
+    const banner=document.getElementById('hikeBanner');
+    if(banner) banner.classList.add('show');
+    const btn=document.getElementById('startHikeBtn');
+    if(btn) btn.disabled=true;
+
+    hikeState.routeLayer=L.polyline(PROJECT4808_ROUTE,{weight:6,opacity:.9}).addTo(window.map);
+    hikeState.trackLayer=L.polyline([],{weight:5,opacity:.9}).addTo(window.map);
+    window.map.fitBounds(hikeState.routeLayer.getBounds(),{padding:[30,30]});
+
+    hikeTimer=setInterval(updateHikeUI,1000);
+
+    if(!navigator.geolocation){
+      document.getElementById('hikeRouteStatus').textContent='⚠️ GPS indisponible sur cet appareil.';
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      onHikePosition,
+      onHikeError,
+      {enableHighAccuracy:true, maximumAge:0, timeout:15000}
+    );
+    hikeState.watchId=navigator.geolocation.watchPosition(
+      onHikePosition,onHikeError,
+      {enableHighAccuracy:true, maximumAge:2000, timeout:15000}
+    );
+    document.getElementById('hikeRouteStatus').textContent='📍 GPS activé — recherche de ta position…';
+  }catch(err){
+    console.error("PROJECT 4808 start error:",err);
+    hikeState.active=false;
+    clearInterval(hikeTimer);
+    alert("Impossible de démarrer la randonnée. Recharge la page et réessaie.");
   }
-  hikeState.watchId=navigator.geolocation.watchPosition(onHikePosition, onHikeError, {
-    enableHighAccuracy:true, maximumAge:2000, timeout:15000
-  });
 }
+window.startRouteDesForts=startRouteDesForts;
 function onHikePosition(p){
   const lat=p.coords.latitude, lon=p.coords.longitude, acc=p.coords.accuracy||0;
   const cur=[lat,lon];
