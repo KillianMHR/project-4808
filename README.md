@@ -1,11 +1,7 @@
-PROJECT 4808 V2.26
+# PROJECT 4808 V2.26.2
 
-- Nouveau design moderne et animé de connexion / création de compte.
-- Connexion par adresse e-mail + mot de passe.
-- Création : pseudo + e-mail + mot de passe + confirmation + photo optionnelle.
-- Comptes actuellement sauvegardés localement sur l’appareil (pas de backend ni synchronisation multi-appareils).
-- 30 grades / trophées, débloqués tous les 3 niveaux jusqu’au niveau 90.
-- Animation plein écran lors du déblocage d’un grade.
-- Collection des grades dans Ma progression.
-- Conservation du système XP, certification x3, animations de niveau et simulation.
-- D+ de simulation calculé progressivement depuis les altitudes du GPX.
+Correctifs :
+- formulaire de création : photo de profil déplacée en dernière option, après la confirmation du mot de passe ;
+- boutons Paramètres « Se déconnecter » et « Réinitialiser les données » modernisés et correctement stylés ;
+- première ouverture sans compte : arrivée directe sur « Créer ton profil » ;
+- une fois un compte existant créé, une déconnexion revient sur l'écran de connexion.
