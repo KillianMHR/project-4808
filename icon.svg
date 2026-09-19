@@ -1,9 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<rect width="512" height="512" rx="112" fill="#111"/>
-<g transform="translate(256 238) rotate(-18) translate(-256 -238)">
-  <path d="M270 92c-31-4-61 17-76 50-12 27-13 61-7 94 5 27 17 51 31 68 12 15 29 24 47 22 19-2 34-14 43-31 11-22 14-52 10-82-4-31-13-62-22-87-7-19-15-30-26-34z" fill="#fff"/>
-  <ellipse cx="281" cy="74" rx="38" ry="34" fill="#fff"/>
-  <path d="M230 158h64M225 192h73M229 227h70M238 262h58" stroke="#ff5a1f" stroke-width="13" stroke-linecap="round"/>
-</g>
-<text x="256" y="430" text-anchor="middle" font-family="Arial,sans-serif" font-size="66" font-weight="900" fill="#fff" letter-spacing="2">HIKE+</text>
+  <defs>
+    <linearGradient id="g" x1="80" y1="60" x2="430" y2="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff7a2f"/>
+      <stop offset="1" stop-color="#e83f00"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="118" fill="url(#g)"/>
+  <path d="M154 335c34-5 72-26 91-61 18-34 23-77 15-113-5-23 8-48 31-59 31-14 68 4 76 36 12 48 5 110-20 160-27 55-78 94-137 102-26 4-52-13-58-38-6-13-4-24 2-27z" fill="#fff"/>
+  <path d="M250 123c-2-30 18-55 46-59 28-4 54 15 59 42 5 25-8 50-31 61-23 11-55 2-68-20-4-7-6-16-6-24z" fill="#fff"/>
+  <path d="M186 287c31-7 61-18 88-35M179 324c29-6 57-16 84-31M181 360c25-5 49-14 73-26" fill="none" stroke="#f05216" stroke-width="15" stroke-linecap="round"/>
+  <path d="M113 394c54 24 116 29 174 15 39-9 74-27 104-53" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" opacity=".9"/>
+  <circle cx="401" cy="347" r="14" fill="#fff" opacity=".95"/>
 </svg>

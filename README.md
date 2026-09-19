@@ -1,4 +1,3 @@
-# HIKE+ — Bêta
+# HIKE+ V1.3 — Beta
 
-Version bêta ouverte. Logo randonnée mis à jour avec une empreinte de pas.
-L’écran de connexion indique désormais clairement le statut bêta à la place de la mention de compte local.
+Logo HIKE+ renouvelé avec un emblème outdoor original, orange et blanc, inspiré de l'énergie des apps sportives sans reprendre une identité existante.

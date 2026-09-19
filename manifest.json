@@ -1,11 +1,19 @@
 {
-  "name":"HIKE+ · Bêta",
-  "short_name":"HIKE+",
-  "start_url":"./index.html",
-  "scope":"./",
-  "display":"standalone",
-  "background_color":"#101210",
-  "theme_color":"#101210",
-  "lang":"fr",
-  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "name": "HIKE+ · Bêta",
+  "short_name": "HIKE+",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101210",
+  "theme_color": "#f05216",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "description": "Application de randonnée · Navigation · Progression"
 }
