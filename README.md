@@ -1,7 +1,7 @@
-# PROJECT 4808 V2.26.16 — Marqueurs par difficulté
+# PROJECT 4808 V2.26.17 — Navigation résiliente en arrière-plan
 
-Base : V2.26.15.
+Base : V2.26.16.
 
-Ajout : les randonnées **Modérées** disposent maintenant d'un marqueur distinct sur la carte, avec une couleur jaune/or. Les randonnées Faciles restent orange et les Difficiles rouges. Les randonnées déjà faites restent vertes avec ✓.
+Ajout : conservation locale de l'état de navigation (chrono, progression, D+, position et checkpoints) lorsque Safari masque temporairement l'onglet. Au retour, la carte est rafraîchie et le suivi GPS est réarmé sans réinitialiser la randonnée.
 
-Les filtres de difficulté et toutes les fonctions précédentes sont conservés.
+Limite iOS/Safari : une page web ne peut pas garantir un suivi GPS continu si le système suspend ou tue complètement l'onglet en arrière-plan. Au retour, l'application reprend automatiquement autant que le navigateur le permet.
