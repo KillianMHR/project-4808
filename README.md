@@ -1,5 +1,9 @@
 # HIKE+ — Bêta
 
-Application de randonnée en phase bêta : navigation GPS, progression, XP, niveaux, difficultés et randonnées disponibles.
+Version bêta de HIKE+.
 
-Les badges sont verrouillés pendant la bêta et seront disponibles prochainement. De nouvelles randonnées seront ajoutées prochainement.
+- Bêta ouverte
+- Compte à rebours de départ configurable : 5 / 10 / 15 / 20 / 30 / 35 / 60 s
+- Navigation GPS, checkpoints, XP et progression
+- Badges verrouillés pendant la bêta — bientôt disponibles
+- De nouvelles randonnées seront bientôt disponibles
