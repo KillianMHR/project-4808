@@ -53,6 +53,9 @@ footer{color:#647890;font-size:11px;text-align:center;margin:25px 0}
 .hike-controls .danger{background:#3a1720;border-color:#7d3544}
 </style>
 
+<style>
+#map{background:#162536!important;min-height:430px}
+</style>
 </head>
 <body>
 <div class="app">
@@ -218,9 +221,34 @@ function render(){
 }
 function initMap(){
  window.map=L.map('map').setView([49.657,-1.672],13);
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
- breadcrumbLayer=L.polyline([],{color:'#149dff',weight:5,opacity:.9,lineCap:'round'}).addTo(map);
- map.on('dragstart zoomstart',()=>{ if(followMap){followMap=false;document.getElementById('followBtn').textContent='🧭 Suivi OFF';}});
+
+ // Primary map tiles + automatic fallback if the first provider is unavailable.
+ const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+   maxZoom:19,attribution:'© OpenStreetMap'
+ });
+ const carto=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+   maxZoom:20,subdomains:'abcd',attribution:'© OpenStreetMap © CARTO'
+ });
+ let fallbackUsed=false;
+ osm.on('tileerror',()=>{
+   if(!fallbackUsed){
+     fallbackUsed=true;
+     try{ window.map.removeLayer(osm); }catch(e){}
+     carto.addTo(window.map);
+     const hint=document.getElementById('mapHint');
+     if(hint) hint.textContent='🗺️ Carte de secours activée.';
+   }
+ });
+ osm.addTo(window.map);
+
+ breadcrumbLayer=L.polyline([],{color:'#149dff',weight:5,opacity:.9,lineCap:'round'}).addTo(window.map);
+ window.map.on('dragstart zoomstart',()=>{
+   if(followMap){
+     followMap=false;
+     const b=document.getElementById('followBtn');
+     if(b) b.textContent='🧭 Suivi OFF';
+   }
+ });
 }
 function details(id){const q=quests.find(x=>x.id===id);openModal(q.name,`<p class="muted">${q.place}</p><p>📏 <b>${q.km} km</b><br>⛰️ <b>+${q.elev} m D+</b><br>🏆 <b>${q.xp} XP</b><br>🎯 ${q.diff}</p><p>Pour le tracé officiel de la Route des Forts, utilise le bouton ci-dessous ou importe son GPX dans cette V0.</p><a class="btn" style="display:block;text-align:center;text-decoration:none" href="${q.official}" target="_blank">Ouvrir la fiche officielle</a>`)}
 function openModal(t,b){document.getElementById('modalTitle').textContent=t;document.getElementById('modalBody').innerHTML=b;document.getElementById('modal').classList.add('show')}
