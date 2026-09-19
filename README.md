@@ -1,3 +1,3 @@
-# PROJECT 4808 V2.9.9
+PROJECT 4808 V2.10 — photo de profil persistante + suppression de photo.
 
-Patch: suppression de toute mention du mois de l'objectif Mont Blanc dans l'interface. Le compte à rebours reste affiché sans afficher de mois/date.
+Les photos sont redimensionnées/compressées avant sauvegarde locale afin d’éviter les limites de localStorage.
