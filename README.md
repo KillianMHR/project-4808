@@ -20,3 +20,6 @@ Mettre tous les fichiers et le dossier `gpx/` à la racine du dépôt.
 
 ## Test-only route
 `gpx/TEST_ONLY_Bremerhaven.gpx` is a synthetic local test route labeled **TEST ONLY**. It is not an official hiking route and must not be treated as a real trail.
+
+
+V2.8.3: TEST ONLY departure moved to the requested Bremerhaven test start shown by the user. The route remains synthetic and for testing only.

@@ -1,22 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="PROJECT 4808" xmlns="http://www.topografix.com/GPX/1/1">
+<?xml version='1.0' encoding='utf-8'?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="PROJECT 4808">
   <metadata><name>TEST ONLY</name><desc>Tracé synthétique de test uniquement — non destiné à la randonnée réelle.</desc></metadata>
   <trk><name>TEST ONLY</name><trkseg>
-    <trkpt lat="49.63097827" lon="-1.60593033"><ele>8</ele></trkpt>
-    <trkpt lat="49.63125000" lon="-1.60550000"><ele>9</ele></trkpt>
-    <trkpt lat="49.63156000" lon="-1.60500000"><ele>10</ele></trkpt>
-    <trkpt lat="49.63185000" lon="-1.60445000"><ele>11</ele></trkpt>
-    <trkpt lat="49.63210000" lon="-1.60385000"><ele>12</ele></trkpt>
-    <trkpt lat="49.63235000" lon="-1.60330000"><ele>13</ele></trkpt>
-    <trkpt lat="49.63265000" lon="-1.60295000"><ele>14</ele></trkpt>
-    <trkpt lat="49.63290000" lon="-1.60325000"><ele>14</ele></trkpt>
-    <trkpt lat="49.63275000" lon="-1.60385000"><ele>13</ele></trkpt>
-    <trkpt lat="49.63250000" lon="-1.60440000"><ele>12</ele></trkpt>
-    <trkpt lat="49.63220000" lon="-1.60495000"><ele>11</ele></trkpt>
-    <trkpt lat="49.63190000" lon="-1.60545000"><ele>10</ele></trkpt>
-    <trkpt lat="49.63160000" lon="-1.60590000"><ele>9</ele></trkpt>
-    <trkpt lat="49.63130000" lon="-1.60625000"><ele>8</ele></trkpt>
-    <trkpt lat="49.63105000" lon="-1.60610000"><ele>8</ele></trkpt>
-    <trkpt lat="49.63097827" lon="-1.60593033"><ele>8</ele></trkpt>
-  </trkseg></trk>
+    <trkpt lat="49.6314500" lon="-1.6080500" /><trkpt lat="49.6317200" lon="-1.6075500" /><trkpt lat="49.6319500" lon="-1.6069500" /><trkpt lat="49.6321000" lon="-1.6063500" /><trkpt lat="49.6322500" lon="-1.6057500" /><trkpt lat="49.6320500" lon="-1.6053500" /><trkpt lat="49.6317000" lon="-1.6055500" /><trkpt lat="49.6313500" lon="-1.6060500" /><trkpt lat="49.6310500" lon="-1.6065500" /><trkpt lat="49.6308500" lon="-1.6071000" /><trkpt lat="49.6307500" lon="-1.6076500" /><trkpt lat="49.6309500" lon="-1.6080500" /><trkpt lat="49.6312000" lon="-1.6082500" /><trkpt lat="49.6314500" lon="-1.6080500" /></trkseg></trk>
 </gpx>
