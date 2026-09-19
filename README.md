@@ -1,8 +1,16 @@
-# PROJECT 4808 — V1 Official prototype
+# PROJECT 4808 — V1.1
 
-Prototype PWA de randonnée : comptes locaux, accueil RPG, fiches de randonnée, aperçu cartographique, navigation GPS, checkpoints, progression, badges et profil.
+Version polish de l'application PROJECT 4808.
 
-## Important
-Cette version est hébergée sur GitHub Pages. Les comptes sont sauvegardés localement dans le navigateur/appareil ; ce n'est pas encore une authentification cloud multi-appareils. Le branchement d'un backend d'authentification pourra être fait ensuite.
+- interface randonnée premium
+- animations et transitions
+- fin de randonnée avec confettis
+- animation XP et niveau
+- bibliothèque de randonnées du Cotentin avec informations issues de sources touristiques officielles
+- fiches avec photos, points d'intérêt et profil d'altitude
+- navigation GPS et GPX conservée
+- vue perspective permanente pendant la navigation
+- suppression du bouton 2D/3D
+- import GPX
 
-Le parcours Avenue de Bremerhaven intégré est un GPX synthétique de test et non un itinéraire officiel.
+Les profils de cette version restent stockés localement sur l'appareil tant qu'aucun backend cloud n'est connecté.
