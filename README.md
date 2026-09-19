@@ -1,5 +1,3 @@
-# PROJECT 4808 — V2.26.21
+# PROJECT 4808 V2.26.22 — iOS dark safe-area fix
 
-Correctif iPhone/iOS full-bleed : les écrans et fonds couvrent désormais aussi la zone safe-area inférieure afin d'éviter les bordures blanches ou les zones incomplètes sur iPhone 17 Pro Max et autres iPhone avec Dynamic Island / Home Indicator.
-
-Base : V2.26.20.
+Corrects the white iOS status/safe-area strip in dark mode by aligning theme-color, standalone manifest colors, status-bar mode and dark page background.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#101210"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.json"><title>PROJECT 4808 · V2.26</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <style>
@@ -250,6 +250,13 @@ html.darkMode .instruction{background:#181b18!important;color:#f2f4f0!important;
 html.darkMode .instruction small,html.darkMode .instruction .turnDistance{color:#a5aba5!important;}
 html.darkMode .roundBtn{background:#181b18!important;color:#f2f4f0!important;border-color:#30352f!important;}
 
+/* V2.26.22 — iOS dark status-bar / safe-area continuity */
+html.darkMode{color-scheme:dark!important;background:#101210!important;}
+html:not(.darkMode){color-scheme:light!important;}
+@supports (-webkit-touch-callout:none){
+  html.darkMode,html.darkMode body{background:#101210!important;}
+  html.darkMode body::before{content:"";position:fixed;z-index:-10;inset:0;background:#101210!important;pointer-events:none;}
+}
 </style>
 
 <style id="gradeStyles">
@@ -362,7 +369,7 @@ function updateHomeCountdown(){const target=new Date('2028-09-01T00:00:00');cons
 function ensureSideMenu(){if(document.getElementById('sideMenu'))return;const wrap=document.createElement('div');wrap.innerHTML='<div class="menuBackdrop" id="menuBackdrop"></div><aside class="sideMenu" id="sideMenu"><div class="menuHead"><div class="menuLogo">PROJECT 4808</div><button class="menuClose" id="menuClose">×</button></div><div class="menuUser"><div class="menuAvatar" id="menuAvatar"></div><div><b id="menuUserName"></b><small>Objectif Mont Blanc</small><small id="menuUserProgress"></small></div></div><div class="menuLinks"><button class="menuLink" data-menu-view="home"><span>⌂</span>Accueil</button><button class="menuLink" data-menu-view="hikes"><span>⌖</span>Randonnées</button><button class="menuLink" data-menu-view="progress"><span>↗</span>Ma progression</button><button class="menuLink" data-menu-view="settings"><span>⚙</span>Paramètres</button></div><div class="menuFooter"><button class="menuLogout" id="menuLogout">Se déconnecter</button></div></aside>';document.body.appendChild(wrap);document.getElementById('menuBackdrop').onclick=closeSideMenu;document.getElementById('menuClose').onclick=closeSideMenu;document.querySelectorAll('.menuLink').forEach(b=>b.onclick=()=>{const v=b.dataset.menuView;if(v===currentView){closeSideMenu();return}closeSideMenu();render(v)});document.getElementById('menuLogout').onclick=()=>{closeSideMenu();logout()}}
 function openSideMenu(){ensureSideMenu();$('menuAvatar').innerHTML=user?.avatar?`<img src="${user.avatar}" alt="">`:initials(user?.name);$('menuUserName').innerHTML=(user?.name||'Profil')+(user?.certified?'<span class="certBadge small" title="Profil certifié">✓</span>':'');if($('menuUserProgress'))$('menuUserProgress').textContent=`Niveau ${user?.level||1} · ${(user?.xp||0)} XP · ${Math.min(100,Math.round(((user?.xp||0)%500)/5))}%`;document.querySelectorAll('.menuLink').forEach(b=>{const active=b.dataset.menuView===currentView;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});$('menuBackdrop').classList.add('show');$('sideMenu').classList.add('show')}
 function closeSideMenu(){const a=document.getElementById('menuBackdrop'),b=document.getElementById('sideMenu');if(a)a.classList.remove('show');if(b)b.classList.remove('show')}
-function applyTheme(){document.documentElement.classList.toggle('darkMode',!!user?.darkMode);document.querySelector('meta[name="theme-color"]')?.setAttribute('content',user?.darkMode?'#101210':'#ffffff')}
+function applyTheme(){const dark=!!user?.darkMode;document.documentElement.classList.toggle('darkMode',dark);document.documentElement.style.colorScheme=dark?'dark':'light';document.querySelector('meta[name="theme-color"]')?.setAttribute('content',dark?'#101210':'#ffffff')}
 function persist(){try{localStorage.setItem(STORE,JSON.stringify(db));return true}catch(e){console.warn('PROJECT 4808: sauvegarde impossible',e);toast('Photo trop lourde pour cet appareil.');return false}}
 function fileToAvatarDataURL(file,done){const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const max=512;const scale=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));const w=Math.max(1,Math.round(img.naturalWidth*scale)),h=Math.max(1,Math.round(img.naturalHeight*scale));const c=document.createElement('canvas');c.width=w;c.height=h;const ctx=c.getContext('2d');ctx.drawImage(img,0,0,w,h);done(c.toDataURL('image/jpeg',0.82))};img.onerror=()=>done(reader.result);img.src=reader.result};reader.readAsDataURL(file)}
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
