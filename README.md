@@ -1,7 +1,5 @@
-# PROJECT 4808 V2.26.17 — Navigation résiliente en arrière-plan
+# PROJECT 4808 V2.26.18 — iPhone plein écran
 
-Base : V2.26.16.
+Base : V2.26.17 BACKGROUND.
 
-Ajout : conservation locale de l'état de navigation (chrono, progression, D+, position et checkpoints) lorsque Safari masque temporairement l'onglet. Au retour, la carte est rafraîchie et le suivi GPS est réarmé sans réinitialiser la randonnée.
-
-Limite iOS/Safari : une page web ne peut pas garantir un suivi GPS continu si le système suspend ou tue complètement l'onglet en arrière-plan. Au retour, l'application reprend automatiquement autant que le navigateur le permet.
+Correction : l'écran de création de profil/login utilise désormais le grand viewport iOS (`100lvh`) et un fond racine sombre pour éviter la bande blanche en bas sur iPhone Pro Max. Le reste de l'application est conservé.
