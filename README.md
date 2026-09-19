@@ -1,9 +1,11 @@
-# PROJECT 4808 — V2.9.5
+# PROJECT 4808 — V2.9.6
 
-## Changements
-- Correction du doublon du message dans « Objectif Mont Blanc ».
-- Création de compte simplifiée : pseudo uniquement, sans e-mail ni mot de passe.
-- Connexion simplifiée : pseudo uniquement sur l'appareil.
-- Migration automatique des anciens comptes locaux e-mail/mot de passe vers un pseudo basé sur le profil existant.
-- Suppression du menu de navigation inférieur : navigation via le menu ☰ supérieur.
-- Conservation de l'animation montagne d'accueil/connexion, du GPS, des GPX et du fil de guidage.
+Mise à jour :
+- bouton « Voir plus de randonnées » dans les recommandations, vers la carte ;
+- « Profil » devient « Paramètres » ;
+- mode sombre persistant ;
+- photo de profil sélectionnable dès la création du compte ;
+- photo + pseudo affichés dans « Ma progression » ;
+- photo conservée dans le menu latéral.
+
+Compte local : pseudo uniquement.
