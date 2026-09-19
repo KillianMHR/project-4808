@@ -1,9 +1,8 @@
-# PROJECT 4808 — V2.9.2
-
-Version GitHub Pages de PROJECT 4808.
-
-## V2.9.2 — Home redesign
-- Accueil redesigné à partir de la référence fournie : header compact, grille de raccourcis colorés, grand bloc aventure et recommandations.
-- Les raccourcis restent fonctionnels : recherche/carte, progression et randonnées.
-- La navigation GPS, les GPX, checkpoints et le fil de guidage de V2.9.1 sont conservés.
-- 30 GPX Manche + TEST ONLY inclus.
+PROJECT 4808 V2.9.3 — Home photo-first
+- Home redesigned with Mont Blanc hero at top.
+- Colored tiles replaced by photo cards.
+- Bottom navigation removed.
+- Top-left menu is functional and opens navigation drawer.
+- Home arrival animation shown when entering the home screen.
+- Mont Blanc countdown includes seconds.
+- Existing GPX/navigation/guidance-line features preserved.
