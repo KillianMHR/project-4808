@@ -1,8 +1,13 @@
-# PROJECT 4808 V2.11 — Explore Map Fix
+# PROJECT 4808 V2.12 — Profil & XP
 
-Correctif de la carte de sélection des randonnées.
+Mise à jour du profil et de la navigation interne.
 
-- La carte est réinitialisée correctement lorsque l'écran Randonnées est recréé.
-- Évite la disparition de la carte après un double clic sur « Randonnées ».
-- Évite le conteneur Leaflet devenu obsolète après la fin d'une randonnée puis le retour à la carte.
-- Les randonnées, GPX, navigation GPS et fil de guidage sont conservés.
+- XP affiché en grand dans « Ma progression ».
+- Photo de profil toujours affichée en cercle, sans déformation.
+- Le menu indique clairement la page actuellement ouverte et ne recharge pas inutilement la même page.
+- Ajout d'un badge de certification de profil.
+- « Obtenir une certification » demande le mot de passe de certification et enregistre la certification localement sur l'appareil.
+- Certification affichée sur le profil, l'accueil, la progression et le menu.
+- Conservation des randonnées, GPX, GPS, checkpoints, fil de guidage et mode sombre.
+
+Note : la certification est une fonctionnalité locale de ce prototype ; elle n'est pas une certification délivrée par une plateforme externe.
