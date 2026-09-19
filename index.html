@@ -96,7 +96,7 @@ footer{color:#647890;font-size:11px;text-align:center;margin:25px 0}
 </div>
 <h2>🧭 Navigation / GPS</h2>
 <div class="mapbox">
-  <div id="map"></div>
+  <div id="map"><div id="mapProviderStatus" style="position:absolute;left:10px;bottom:10px;z-index:1000;background:rgba(5,15,25,.85);padding:7px 10px;border-radius:8px;font-size:12px;color:#fff;pointer-events:none">🗺️ Chargement de la carte…</div></div>
   <div class="tracking" id="trackingPanel">
     <div style="display:flex;justify-content:space-between;margin-top:13px"><div><div class="muted">Distance</div><div class="big" id="liveDist">0.00 km</div></div><div><div class="muted">Temps</div><div class="big" id="liveTime">00:00</div></div></div>
     <div class="navbar">
@@ -220,35 +220,64 @@ function render(){
  }).join("");
 }
 function initMap(){
- window.map=L.map('map').setView([49.657,-1.672],13);
+  window.map=L.map('map',{zoomControl:true}).setView([49.657,-1.672],13);
 
- // Primary map tiles + automatic fallback if the first provider is unavailable.
- const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-   maxZoom:19,attribution:'© OpenStreetMap'
- });
- const carto=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
-   maxZoom:20,subdomains:'abcd',attribution:'© OpenStreetMap © CARTO'
- });
- let fallbackUsed=false;
- osm.on('tileerror',()=>{
-   if(!fallbackUsed){
-     fallbackUsed=true;
-     try{ window.map.removeLayer(osm); }catch(e){}
-     carto.addTo(window.map);
-     const hint=document.getElementById('mapHint');
-     if(hint) hint.textContent='🗺️ Carte de secours activée.';
-   }
- });
- osm.addTo(window.map);
+  const providers=[
+    {
+      name:'Esri',
+      url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+      options:{maxZoom:19,attribution:'Tiles © Esri'}
+    },
+    {
+      name:'OpenStreetMap',
+      url:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      options:{maxZoom:19,attribution:'© OpenStreetMap'}
+    },
+    {
+      name:'CARTO',
+      url:'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      options:{maxZoom:20,subdomains:'abcd',attribution:'© OpenStreetMap © CARTO'}
+    }
+  ];
 
- breadcrumbLayer=L.polyline([],{color:'#149dff',weight:5,opacity:.9,lineCap:'round'}).addTo(window.map);
- window.map.on('dragstart zoomstart',()=>{
-   if(followMap){
-     followMap=false;
-     const b=document.getElementById('followBtn');
-     if(b) b.textContent='🧭 Suivi OFF';
-   }
- });
+  let providerIndex=0;
+  let currentLayer=null;
+  let switched=false;
+
+  function useProvider(i){
+    providerIndex=i;
+    if(currentLayer){
+      try{window.map.removeLayer(currentLayer);}catch(e){}
+    }
+    const p=providers[i];
+    currentLayer=L.tileLayer(p.url,p.options);
+    let errors=0;
+    currentLayer.on('tileerror',()=>{
+      errors++;
+      if(errors>=2 && !switched){
+        switched=true;
+        if(providerIndex<providers.length-1){
+          useProvider(providerIndex+1);
+        }
+      }
+    });
+    currentLayer.addTo(window.map);
+  }
+
+  useProvider(0);
+
+  breadcrumbLayer=L.polyline([],{color:'#149dff',weight:5,opacity:.9,lineCap:'round'}).addTo(window.map);
+
+  window.map.on('dragstart zoomstart',()=>{
+    if(followMap){
+      followMap=false;
+      const b=document.getElementById('followBtn');
+      if(b) b.textContent='🧭 Suivi OFF';
+    }
+  });
+
+  setTimeout(()=>window.map.invalidateSize(true),250);
+  setTimeout(()=>{window.map.invalidateSize(true);const s=document.getElementById('mapProviderStatus');if(s)s.textContent='🗺️ Carte prête';},1000);
 }
 function details(id){const q=quests.find(x=>x.id===id);openModal(q.name,`<p class="muted">${q.place}</p><p>📏 <b>${q.km} km</b><br>⛰️ <b>+${q.elev} m D+</b><br>🏆 <b>${q.xp} XP</b><br>🎯 ${q.diff}</p><p>Pour le tracé officiel de la Route des Forts, utilise le bouton ci-dessous ou importe son GPX dans cette V0.</p><a class="btn" style="display:block;text-align:center;text-decoration:none" href="${q.official}" target="_blank">Ouvrir la fiche officielle</a>`)}
 function openModal(t,b){document.getElementById('modalTitle').textContent=t;document.getElementById('modalBody').innerHTML=b;document.getElementById('modal').classList.add('show')}
