@@ -82,7 +82,7 @@ body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro D
 .nav{height:84px;padding:8px 10px calc(env(safe-area-inset-bottom) + 7px);background:rgba(255,255,255,.94);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,.06);box-shadow:0 -8px 30px #00000008}.tab{font-size:9px;color:#8a8f89}.tab b{font-size:20px;margin-bottom:2px}.tab.active{color:var(--orange)}.tab.active b{transform:translateY(-1px)}
 @media(min-width:700px){.content{padding-top:30px}.homeHero{height:360px}.quickStats{margin-top:-42px}.nextPhoto{height:210px}}
 
-.appSplash{position:fixed;inset:0;background:#111;z-index:50000;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:splashOut .55s ease 1.05s forwards}.splashMark{width:78px;height:78px;border:2px solid #fff;border-radius:24px;display:grid;place-items:center;font-size:21px;font-weight:950;letter-spacing:-.06em;animation:splashMarkIn .7s cubic-bezier(.2,.8,.2,1) both}.splashName{margin-top:18px;font-size:13px;letter-spacing:.18em;font-weight:900;animation:splashTextIn .7s .12s ease both}.splashName span{color:#fc4c02}.splashLine{width:92px;height:3px;background:#333;border-radius:99px;overflow:hidden;margin-top:18px}.splashLine i{display:block;height:100%;width:0;background:#fc4c02;animation:splashLoad 1s .15s ease forwards}@keyframes splashMarkIn{from{opacity:0;transform:scale(.7) rotate(-8deg)}to{opacity:1;transform:none}}@keyframes splashTextIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes splashLoad{to{width:100%}}@keyframes splashOut{to{opacity:0;visibility:hidden;pointer-events:none}}
+.appSplash{position:fixed;inset:0;background:#111;z-index:50000;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;animation:splashOut .65s ease 2.15s forwards}.splashMark{width:78px;height:78px;border:2px solid #fff;border-radius:24px;display:grid;place-items:center;font-size:21px;font-weight:950;letter-spacing:-.06em;animation:splashMarkIn .7s cubic-bezier(.2,.8,.2,1) both}.splashName{margin-top:18px;font-size:13px;letter-spacing:.18em;font-weight:900;animation:splashTextIn .7s .12s ease both}.splashName span{color:#fc4c02}.splashLine{width:92px;height:3px;background:#333;border-radius:99px;overflow:hidden;margin-top:18px}.splashLine i{display:block;height:100%;width:0;background:#fc4c02;animation:splashLoad 1.9s .15s ease forwards}@keyframes splashMarkIn{from{opacity:0;transform:scale(.7) rotate(-8deg)}to{opacity:1;transform:none}}@keyframes splashTextIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes splashLoad{to{width:100%}}@keyframes splashOut{to{opacity:0;visibility:hidden;pointer-events:none}}
 .offroute.show{animation:offrouteIn .28s ease both}.offroute{line-height:1.3}.offroute small{display:block;font-size:9px;font-weight:700;opacity:.86;margin-top:3px}@keyframes offrouteIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .todoGrid{display:grid;gap:12px}.todoCard{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 26px #00000008}.todoPhoto{height:150px;background:center/cover no-repeat}.todoBody{padding:14px}.todoBody h3{margin:0 0 5px;font-size:16px}.todoBody p{margin:0;color:#777;font-size:11px}.todoActions{display:flex;gap:8px;margin-top:11px}.todoActions button{flex:1;border:0;border-radius:9px;padding:10px;font-weight:900}.todoActions .todoGo{background:#171717;color:#fff}.todoDone{font-size:9px;color:#16844f;font-weight:900;margin-top:7px}
 </style>
@@ -197,7 +197,7 @@ $('view').innerHTML=x;bindView(v)}
 function bindView(v){if(v==='home'){updateCountdown();document.querySelectorAll('[data-home-hike]').forEach(btn=>btn.onclick=()=>{const pending=MANCHE_HIKES.filter(h=>h.nav&&!isDone(h.name)).slice(0,4)[Number(btn.dataset.homeHike)];if(pending){routeData.name=pending.name;routeData.distance=pending.distance;routeData.dplus=pending.dplus;routeData.gpx=pending.gpx;startNav()}})}if(v==='hikes'){setTimeout(()=>{initExploreMap();const q=$('hikeSearch');q.oninput=()=>drawExploreMarkers();$('exploreLocate').onclick=locateExplore;document.querySelectorAll('.exploreChip').forEach(b=>b.onclick=()=>{document.querySelectorAll('.exploreChip').forEach(x=>x.classList.remove('active'));b.classList.add('active');exploreFilter=b.dataset.filter;drawExploreMarkers()});$('sheetClose').onclick=()=>$('exploreSheet').classList.remove('show');$('sheetCenter').onclick=()=>{if(exploreSelected&&exploreMap)exploreMap.panTo([exploreSelected.lat,exploreSelected.lon],{animate:true})};$('sheetStart').onclick=()=>{if(exploreSelected?.nav){routeData.name=exploreSelected.name;routeData.distance=exploreSelected.distance;routeData.dplus=exploreSelected.dplus;routeData.gpx=exploreSelected.gpx;startNav()}}},30)}if(v==='profile'){$('logout').onclick=logout;$('avatarEdit').onclick=()=>$('avatarFile').click();$('avatarFile').onchange=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{user.avatar=r.result;db.profiles[db.current]=user;persist();render('profile')};r.readAsDataURL(f)};$('reset').onclick=()=>{if(confirm('Effacer ce compte et toutes ses données locales ?')){delete db.profiles[db.current];db.current='';persist();logout()}}}}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>render(b.dataset.view));$('avatarBtn').onclick=()=>render('profile');
 function loadLeafletFallback(){if(window.L)return;const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';s.onload=()=>toast('Carte chargée');s.onerror=()=>toast('Carte indisponible — vérifie Internet');document.head.appendChild(s)}
-let map=null,route=null,userMarker=null,watchId=null,timerId=null,simId=null,simulating=false,startAt=0,pts=[],cum=[],total=0,traveled=0,dplus=0,lastPos=null,best=0,cp=0,checkpointLayer=null,checkpointMarkers=[],offRouteSince=0;
+let map=null,route=null,userMarker=null,watchId=null,timerId=null,simId=null,simulating=false,startAt=0,pts=[],cum=[],total=0,traveled=0,dplus=0,lastPos=null,best=0,cp=0,checkpointLayer=null,checkpointMarkers=[],offRouteSince=0,navStarted=false,startProximitySince=0,navCancelling=false;
 const R=6371000,rad=x=>x*Math.PI/180;function hav(a,b){const dlat=rad(b.lat-a.lat),dlon=rad(b.lon-a.lon),q=Math.sin(dlat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dlon/2)**2;return 2*R*Math.asin(Math.sqrt(q))}function bear(a,b){const y=Math.sin(rad(b.lon-a.lon))*Math.cos(rad(b.lat)),x=Math.cos(rad(a.lat))*Math.sin(rad(b.lat))-Math.sin(rad(a.lat))*Math.cos(rad(b.lat))*Math.cos(rad(b.lon-a.lon));return (Math.atan2(y,x)*180/Math.PI+360)%360}function parseGPX(txt){const d=new DOMParser().parseFromString(txt,'application/xml');return [...d.querySelectorAll('trkpt')].map(n=>({lat:+n.getAttribute('lat'),lon:+n.getAttribute('lon'),ele:+(n.querySelector('ele')?.textContent||0)})).filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon))}
 function prep(){pts=parseGPX(GPX);cum=[0];for(let i=1;i<pts.length;i++)cum.push(cum[i-1]+hav(pts[i-1],pts[i]));total=cum[cum.length-1]||0}
 function nearest(p){let best={dist:Infinity,index:0,progress:0};for(let i=0;i<pts.length-1;i++){const a=pts[i],b=pts[i+1],lat=rad((a.lat+b.lat)/2),x=(p.lon-a.lon)*111320*Math.cos(lat),y=(p.lat-a.lat)*110540,dx=(b.lon-a.lon)*111320*Math.cos(lat),dy=(b.lat-a.lat)*110540,t=Math.max(0,Math.min(1,(x*dx+y*dy)/(dx*dx+dy*dy||1))),q={lat:a.lat+(b.lat-a.lat)*t,lon:a.lon+(b.lon-a.lon)*t},dist=hav(p,q);if(dist<best.dist)best={dist,index:i,progress:cum[i]+hav(a,q)}}return best}
@@ -236,12 +236,76 @@ function checkpointReached(n){
     }
   }
 }
-function onGPS(pos){const c=pos.coords,p={lat:c.latitude,lon:c.longitude,ele:c.altitude};const n=nearest(p);if(lastPos){const dd=hav(lastPos,p);if(dd<100&&(!Number.isFinite(c.accuracy)||c.accuracy<=50))traveled+=dd;const de=(p.ele??0)-(lastPos.ele??0);if(de>0&&de<50)dplus+=de}lastPos=p;const idx=Math.min(n.index+1,pts.length-1),heading=Number.isFinite(c.heading)&&c.heading>=0?c.heading:bear(pts[n.index],pts[idx]);marker(p,heading);updateStats(n,c.accuracy);if(n.dist<100)map.panTo([p.lat,p.lon],{animate:false});$('instruction').textContent=n.dist>55?'Rejoignez le tracé':'Continuez sur le parcours';if(best>=total*.98)finish()}
+function cancelNav(reason='Cette randonnée n’est pas possible depuis votre position'){
+  if(navCancelling)return;
+  navCancelling=true;
+  stopWatch();
+  $('offroute').classList.add('show');
+  $('offroute').innerHTML='⚠️ '+reason+'<small>La randonnée a été annulée. Choisissez une autre randonnée ou rejoignez son départ.</small>';
+  clearTimeout(window._navCancelT);
+  window._navCancelT=setTimeout(()=>{
+    navCancelling=false;
+    $('offroute').classList.remove('show');
+    $('navScreen').classList.remove('active');
+    $('app').classList.add('active');
+    render('hikes');
+  },1700);
+}
+function onGPS(pos){
+  if(navCancelling)return;
+  const c=pos.coords,p={lat:c.latitude,lon:c.longitude,ele:c.altitude};
+  marker(p,Number.isFinite(c.heading)&&c.heading>=0?c.heading:0);
+  $('gpsAcc').textContent=Number.isFinite(c.accuracy)?Math.round(c.accuracy)+' m':'—';
+
+  // A new hike always starts from the real GPX start. Being near a later point
+  // of the route must never validate checkpoints automatically.
+  if(!navStarted){
+    const startDist=hav(p,pts[0]);
+    $('remaining').textContent=(total/1000).toFixed(2)+' km';
+    $('distance').textContent='0.00';
+    $('dplus').textContent='0';
+    if(startDist<=120){
+      navStarted=true;
+      startProximitySince=0;
+      offRouteSince=0;
+      lastPos=p;
+      best=0;
+      cp=0;
+      cpbar();
+      refreshCheckpointMarkers();
+      $('offroute').classList.remove('show');
+      $('instruction').textContent='Départ — suivez le tracé';
+      return;
+    }
+    if(!startProximitySince)startProximitySince=Date.now();
+    if(Date.now()-startProximitySince>=5000){
+      cancelNav('Cette randonnée n’est pas possible depuis votre position');
+      return;
+    }
+    $('instruction').textContent='Rejoignez le départ de la randonnée…';
+    return;
+  }
+
+  const n=nearest(p);
+  if(lastPos){
+    const dd=hav(lastPos,p);
+    if(dd<100&&(!Number.isFinite(c.accuracy)||c.accuracy<=50))traveled+=dd;
+    const de=(p.ele??0)-(lastPos.ele??0);
+    if(de>0&&de<50)dplus+=de;
+  }
+  lastPos=p;
+  const idx=Math.min(n.index+1,pts.length-1),heading=Number.isFinite(c.heading)&&c.heading>=0?c.heading:bear(pts[n.index],pts[idx]);
+  marker(p,heading);
+  updateStats(n,c.accuracy);
+  if(n.dist<100)map.panTo([p.lat,p.lon],{animate:false});
+  $('instruction').textContent=n.dist>55?'Rejoignez le tracé':'Continuez sur le parcours';
+  if(best>=total*.98)finish();
+}
 function gpsError(e){$('instruction').textContent=e.code===1?'Autorisez la localisation dans Safari':e.code===2?'Position indisponible — essayez dehors':'GPS en attente — nouvelle tentative…';toast($('instruction').textContent)}
-async function startNav(){stopWatch();if(routeData.gpx){try{const r=await fetch(routeData.gpx,{cache:'no-store'});if(!r.ok)throw new Error('GPX '+r.status);GPX=await r.text()}catch(e){toast('Impossible de charger le tracé GPX');return}}prep();if(!makeMap()){$('instruction').textContent='Carte indisponible — recharge la page avec Internet';$('navScreen').classList.add('active');return}$('app').classList.remove('active');$('navScreen').classList.add('active');setTimeout(()=>map.invalidateSize(true),100);traveled=0;dplus=0;best=0;cp=0;lastPos=null;offRouteSince=0;drawRoute();refreshCheckpointMarkers();$('offroute').classList.remove('show');if(userMarker){map.removeLayer(userMarker);userMarker=null}cpbar();$('instruction').textContent='Recherche de votre position…';$('navStatus').textContent='NAVIGATION · GPS';startAt=Date.now();timerId=setInterval(()=>{const s=Math.floor((Date.now()-startAt)/1000);$('time').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},500);if(!navigator.geolocation){gpsError({code:2});return}const opts={enableHighAccuracy:true,maximumAge:0,timeout:15000};navigator.geolocation.getCurrentPosition(onGPS,gpsError,opts);watchId=navigator.geolocation.watchPosition(onGPS,gpsError,opts)}
+async function startNav(){stopWatch();if(routeData.gpx){try{const r=await fetch(routeData.gpx,{cache:'no-store'});if(!r.ok)throw new Error('GPX '+r.status);GPX=await r.text()}catch(e){toast('Impossible de charger le tracé GPX');return}}prep();if(!makeMap()){$('instruction').textContent='Carte indisponible — recharge la page avec Internet';$('navScreen').classList.add('active');return}$('app').classList.remove('active');$('navScreen').classList.add('active');setTimeout(()=>map.invalidateSize(true),100);traveled=0;dplus=0;best=0;cp=0;lastPos=null;offRouteSince=0;navStarted=false;startProximitySince=0;navCancelling=false;drawRoute();refreshCheckpointMarkers();$('offroute').classList.remove('show');if(userMarker){map.removeLayer(userMarker);userMarker=null}cpbar();$('instruction').textContent='Recherche de votre position…';$('navStatus').textContent='NAVIGATION · GPS';startAt=Date.now();timerId=setInterval(()=>{const s=Math.floor((Date.now()-startAt)/1000);$('time').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},500);if(!navigator.geolocation){gpsError({code:2});return}const opts={enableHighAccuracy:true,maximumAge:0,timeout:15000};navigator.geolocation.getCurrentPosition(onGPS,gpsError,opts);watchId=navigator.geolocation.watchPosition(onGPS,gpsError,opts)}
 function stopWatch(){if(watchId!==null){navigator.geolocation.clearWatch(watchId);watchId=null}clearInterval(timerId);cancelAnimationFrame(simId);simulating=false}
 function finish(){stopWatch();const km=Math.max(0,traveled/1000),xp=Math.max(50,Math.round(km*20));user.hikes.push({date:Date.now(),name:routeData.name,distance:km,dplus:Math.max(0,Math.round(dplus))});user.xp+=xp;user.level=1+Math.floor(user.xp/1000);db.profiles[db.current]=user;persist();$('finishKm').textContent=km.toFixed(2);$('finishDplus').textContent=Math.round(dplus);$('finishXp').textContent='+'+xp;$('navScreen').classList.remove('active');$('finish').classList.add('show');confetti();xpBurst('+'+xp+' XP')}
-function simulate(){stopWatch();prep();if(!makeMap())return;$('app').classList.remove('active');$('navScreen').classList.add('active');setTimeout(()=>map.invalidateSize(true),100);traveled=0;dplus=0;best=0;cp=0;offRouteSince=0;drawRoute();cpbar();refreshCheckpointMarkers();$('offroute').classList.remove('show');simulating=true;$('navStatus').textContent='NAVIGATION · MODE TEST';const t0=performance.now();function step(t){if(!simulating)return;const k=Math.min(1,(t-t0)/20000);best=total*k;traveled=best;const p=atProg(best),n=nearest(p),idx=Math.min(n.index+1,pts.length-1);marker(p,bear(pts[n.index],pts[idx]));updateStats(n,5);$('instruction').textContent=k<.02?'Départ':k>.98?'Arrivée !':'Continuez sur le parcours';if(k>=.999){finish();return}simId=requestAnimationFrame(step)}simId=requestAnimationFrame(step)}
+function simulate(){stopWatch();prep();if(!makeMap())return;$('app').classList.remove('active');$('navScreen').classList.add('active');setTimeout(()=>map.invalidateSize(true),100);traveled=0;dplus=0;best=0;cp=0;offRouteSince=0;navStarted=true;startProximitySince=0;navCancelling=false;drawRoute();cpbar();refreshCheckpointMarkers();$('offroute').classList.remove('show');simulating=true;$('navStatus').textContent='NAVIGATION · MODE TEST';const t0=performance.now();function step(t){if(!simulating)return;const k=Math.min(1,(t-t0)/20000);best=total*k;traveled=best;const p=atProg(best),n=nearest(p),idx=Math.min(n.index+1,pts.length-1);marker(p,bear(pts[n.index],pts[idx]));updateStats(n,5);$('instruction').textContent=k<.02?'Départ':k>.98?'Arrivée !':'Continuez sur le parcours';if(k>=.999){finish();return}simId=requestAnimationFrame(step)}simId=requestAnimationFrame(step)}
 $('stopBtn').onclick=()=>{stopWatch();$('navScreen').classList.remove('active');$('app').classList.add('active');render('home')};$('simulateBtn').onclick=simulate;$('centerBtn').onclick=()=>{if(userMarker)map.setView(userMarker.getLatLng(),17)};$('finishBtn').onclick=()=>{$('finish').classList.remove('show');$('app').classList.add('active');render('home')};
 if(!window.L)loadLeafletFallback(); setMode('login');if(db.current&&db.profiles[db.current])enter();;
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
