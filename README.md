@@ -1,6 +1,8 @@
-# PROJECT 4808 — V0.5 TEST
-Cette version intègre le GPX de test Avenue de Bremerhaven.
+# PROJECT 4808 — V1 Official prototype
 
-Inclus : accueil RPG minimal, GPX intégré, import GPX, GPS iPhone, position en direct, suivi de tracé, progression, distance restante, temps, distance parcourue, D+, alerte hors-tracé, recentrage et mode perspective 3D visuel.
+Prototype PWA de randonnée : comptes locaux, accueil RPG, fiches de randonnée, aperçu cartographique, navigation GPS, checkpoints, progression, badges et profil.
 
-Le GPX Avenue de Bremerhaven est un tracé synthétique de test, pas une trace routière certifiée.
+## Important
+Cette version est hébergée sur GitHub Pages. Les comptes sont sauvegardés localement dans le navigateur/appareil ; ce n'est pas encore une authentification cloud multi-appareils. Le branchement d'un backend d'authentification pourra être fait ensuite.
+
+Le parcours Avenue de Bremerhaven intégré est un GPX synthétique de test et non un itinéraire officiel.
