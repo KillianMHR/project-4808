@@ -546,20 +546,21 @@ function updateStats(n,acc,pos){best=Math.max(best,n.progress);updateRouteGuidan
 function toast(msg){const el=$('toast');el.textContent=msg;el.classList.remove('show');void el.offsetWidth;el.classList.add('show');clearTimeout(window._toastT);window._toastT=setTimeout(()=>el.classList.remove('show'),2200)}
 function xpBurst(text){const el=document.createElement('div');el.className='xpBurst';el.textContent=text;document.body.appendChild(el);setTimeout(()=>el.remove(),950)}
 function confetti(){for(let i=0;i<36;i++){const e=document.createElement('i');e.className='confetti';e.style.left=(Math.random()*100)+'vw';e.style.setProperty('--x',((Math.random()-.5)*220)+'px');e.style.setProperty('--d',(1.1+Math.random()*1.2)+'s');e.style.animationDelay=(Math.random()*.25)+'s';e.style.background=['#fc4c02','#171717','#f5c542','#2b7fff'][i%4];document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}}
-const CHECKPOINT_MOTIVATION=[
-  ['🔥 C’est parti !','Le premier checkpoint est validé. Tu es lancé !'],
-  ['💪 Très bien !','Tu avances bien. Garde ce rythme !'],
-  ['🚀 Ça déroule !','Déjà bien avancé. Continue comme ça !'],
-  ['🏔️ Solide !','Tu prends de l’altitude, ne lâche rien !'],
-  ['⚡ Mi-parcours !','La moitié est derrière toi. Encore un effort !'],
-  ['🔥 Quel rythme !','Tu es dans le bon tempo. Continue !'],
-  ['💪 Presque là !','Les derniers kilomètres se rapprochent !'],
-  ['🚀 Dernière ligne droite !','Tu touches au but. Reste concentré !'],
-  ['🏆 Encore un effort !','Le prochain objectif est tout proche !'],
-  ['🎉 Énorme !','Dernier checkpoint validé. Termine fort !']
-];
+function getCheckpointMotivation(n){
+  const totalCP=checkpointTargets.length||checkpointCount();
+  const ratio=n/Math.max(1,totalCP);
+  if(n===1)return ['🔥 C’est parti !','Premier checkpoint validé. Tu es lancé, continue comme ça !'];
+  if(n===totalCP)return ['🏆 Dernier checkpoint !','Tu as atteint le dernier checkpoint. Termine fort !'];
+  if(totalCP===3 && n===2)return ['⚡ Mi-parcours !','Tu es au cœur de la randonnée. Garde le rythme !'];
+  if(totalCP===4 && n===2)return ['💪 Très bien !','Un bon morceau est déjà derrière toi. Continue !'];
+  if(totalCP===4 && n===3)return ['🚀 Presque là !','La fin approche. Encore un bel effort !'];
+  if(ratio<=0.4)return ['💪 Très bien !','Tu avances bien. Garde ce rythme !'];
+  if(ratio<=0.6)return ['⚡ Ça déroule !','Tu as déjà bien avancé. Continue sur ta lancée !'];
+  if(ratio<=0.8)return ['🔥 Solide !','La majorité du parcours est derrière toi. Ne lâche rien !'];
+  return ['🚀 Presque là !','La fin approche. Encore un effort !'];
+}
 function checkpointReached(n){
-  const msg=CHECKPOINT_MOTIVATION[Math.min(n-1,CHECKPOINT_MOTIVATION.length-1)]||['💪 Bien joué !','Checkpoint validé. Continue !'];
+  const msg=getCheckpointMotivation(n);
   toast('✓ '+msg[0].replace(/^[^ ]+ /,''));
   xpBurst('+25 XP');
   const box=$('routeConfirm'),title=box?.querySelector('b'),txt=$('routeConfirmText');
