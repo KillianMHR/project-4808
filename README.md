@@ -1,5 +1,4 @@
-# PROJECT 4808 V2.26.18 — iPhone plein écran
+# PROJECT 4808 V2.26.19 — Fullscreen iPhone global fix
+Base : V2.26.18.
 
-Base : V2.26.17 BACKGROUND.
-
-Correction : l'écran de création de profil/login utilise désormais le grand viewport iOS (`100lvh`) et un fond racine sombre pour éviter la bande blanche en bas sur iPhone Pro Max. Le reste de l'application est conservé.
+Correction : shell fullscreen robuste pour iPhone, appliquée à tous les écrans et menus afin d'éviter les bandes résiduelles en bas liées au viewport iOS. Conservation de la navigation, de la progression et du suivi en arrière-plan.
