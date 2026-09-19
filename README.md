@@ -1,5 +1,10 @@
-# PROJECT 4808 — V2.26.14
+# PROJECT 4808 — V2.26.15
 
-Base : V2.26.13 sans zoom automatique aux virages.
+Base : V2.26.14 sans zoom automatique aux virages.
 
-Ajout : les messages de motivation des checkpoints s’adaptent automatiquement au nombre réel de checkpoints de la randonnée (3 à 10). Les formulations de début, milieu et fin sont recalculées selon la progression réelle.
+Ajouts :
+- filtre de randonnées par difficulté : Faciles, Modérées, Difficiles ;
+- conservation des filtres Toutes et ✓ Déjà faites ;
+- les randonnées Difficiles utilisent un marqueur cartographique distinct, rouge foncé avec symbole ⚠ ;
+- messages de motivation des checkpoints adaptatifs conservés ;
+- navigation et simulation conservées.
