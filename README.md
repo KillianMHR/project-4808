@@ -1,3 +1,3 @@
-# PROJECT 4808 V2.26.22 — iOS dark safe-area fix
+# PROJECT 4808 — V2.26.23
 
-Corrects the white iOS status/safe-area strip in dark mode by aligning theme-color, standalone manifest colors, status-bar mode and dark page background.
+Correctif iPhone edge-to-edge : suppression des bandes blanches résiduelles sur iOS, notamment sur l'écran de création/connexion. Le fond de secours suit l'écran actif et les écrans fixes utilisent les quatre bords avec débordement safe-area inférieur.

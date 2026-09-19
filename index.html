@@ -349,6 +349,51 @@ body{
   #app .nav{padding-bottom:max(7px,env(safe-area-inset-bottom))!important}
 }
 </style>
+
+<style id="v22623-ios-edge-bleed">
+/* V2.26.23 — iPhone edge-to-edge hardening: never expose the page background */
+html,body{background:#101210!important;}
+html.darkMode,html.darkMode body{background:#101210!important;}
+html:not(.darkMode) body{background:#f5f6f4!important;}
+
+/* While the auth screen is visible, paint the same mountain backdrop behind the
+   fixed screen as a final fallback for any iOS viewport/safe-area gap. */
+body:has(#auth.active){
+  background:#101210 url('https://commons.wikimedia.org/wiki/Special:FilePath/Mont-Blanc.jpg') center/cover fixed no-repeat!important;
+}
+body:has(#auth.active)::before{
+  content:"";
+  position:fixed;
+  z-index:-100;
+  top:0;left:0;right:0;bottom:0;
+  width:100%;height:100%;
+  background:linear-gradient(180deg,rgba(6,16,13,.24),rgba(5,12,9,.72));
+  pointer-events:none;
+}
+
+/* Do not rely on 100vh/100dvh alone. Fixed edge-to-edge screens use all four
+   edges, with an extra bottom bleed for the iPhone home-indicator area. */
+#auth,#appSplash,#app,#navScreen,.screen.active{
+  position:fixed!important;
+  top:0!important;left:0!important;right:0!important;
+  bottom:calc(-1 * env(safe-area-inset-bottom,0px))!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+}
+#auth{min-height:100%!important;}
+
+/* Keep the app's own surfaces responsible for their colors; the body is only
+   the fallback layer underneath them. */
+#app{background:var(--bg)!important;}
+#navScreen{background:#e5e8e8!important;}
+
+@supports not selector(body:has(#auth.active)){
+  /* Safe fallback: keep the bottom edge dark instead of exposing white. */
+  html.darkMode body{background:#101210!important;}
+}
+</style>
 </head>
 <body>
 <div id="appSplash" class="appSplash"><div class="splashBg"></div><div class="splashInner"><div class="splashMark">4808</div><div class="splashName">PROJECT 4808</div><div class="splashSub">Cap sur le Mont Blanc</div><div class="splashLine"><i></i></div></div></div>
