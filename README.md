@@ -1,5 +1,5 @@
-# PROJECT 4808 V2.26.12 — Zoom intelligent aux virages
+# PROJECT 4808 — V2.26.13
 
-Base : V2.26.11 FINISH_XP_FIX.
+Base : V2.26.12 (zoom intelligent aux virages).
 
-Ajout : la navigation augmente progressivement le zoom à l'approche d'un changement de direction détecté sur le GPX, recentre la carte vers la zone du virage, puis revient au zoom normal une fois le virage passé. Fonctionne en navigation GPS et en simulation.
+Ajout : messages de motivation différents à chaque checkpoint. Le bandeau de validation affiche un titre et un message adaptés à la progression, avec un affichage légèrement plus long pour laisser le temps de lire.

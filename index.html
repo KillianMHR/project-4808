@@ -568,11 +568,24 @@ function updateStats(n,acc,pos){best=Math.max(best,n.progress);updateRouteGuidan
 function toast(msg){const el=$('toast');el.textContent=msg;el.classList.remove('show');void el.offsetWidth;el.classList.add('show');clearTimeout(window._toastT);window._toastT=setTimeout(()=>el.classList.remove('show'),2200)}
 function xpBurst(text){const el=document.createElement('div');el.className='xpBurst';el.textContent=text;document.body.appendChild(el);setTimeout(()=>el.remove(),950)}
 function confetti(){for(let i=0;i<36;i++){const e=document.createElement('i');e.className='confetti';e.style.left=(Math.random()*100)+'vw';e.style.setProperty('--x',((Math.random()-.5)*220)+'px');e.style.setProperty('--d',(1.1+Math.random()*1.2)+'s');e.style.animationDelay=(Math.random()*.25)+'s';e.style.background=['#fc4c02','#171717','#f5c542','#2b7fff'][i%4];document.body.appendChild(e);setTimeout(()=>e.remove(),2800)}}
+const CHECKPOINT_MOTIVATION=[
+  ['🔥 C’est parti !','Le premier checkpoint est validé. Tu es lancé !'],
+  ['💪 Très bien !','Tu avances bien. Garde ce rythme !'],
+  ['🚀 Ça déroule !','Déjà bien avancé. Continue comme ça !'],
+  ['🏔️ Solide !','Tu prends de l’altitude, ne lâche rien !'],
+  ['⚡ Mi-parcours !','La moitié est derrière toi. Encore un effort !'],
+  ['🔥 Quel rythme !','Tu es dans le bon tempo. Continue !'],
+  ['💪 Presque là !','Les derniers kilomètres se rapprochent !'],
+  ['🚀 Dernière ligne droite !','Tu touches au but. Reste concentré !'],
+  ['🏆 Encore un effort !','Le prochain objectif est tout proche !'],
+  ['🎉 Énorme !','Dernier checkpoint validé. Termine fort !']
+];
 function checkpointReached(n){
-  toast('✓ Checkpoint '+n+' atteint');
+  const msg=CHECKPOINT_MOTIVATION[Math.min(n-1,CHECKPOINT_MOTIVATION.length-1)]||['💪 Bien joué !','Checkpoint validé. Continue !'];
+  toast('✓ '+msg[0].replace(/^[^ ]+ /,''));
   xpBurst('+25 XP');
-  const box=$('routeConfirm'),txt=$('routeConfirmText');
-  if(box){txt.textContent='Checkpoint '+n+' atteint · tu es sur le parcours';box.classList.remove('show');void box.offsetWidth;box.classList.add('show');clearTimeout(window._routeConfirmT);window._routeConfirmT=setTimeout(()=>box.classList.remove('show'),1900)}
+  const box=$('routeConfirm'),title=box?.querySelector('b'),txt=$('routeConfirmText');
+  if(box){if(title)title.textContent=msg[0];txt.textContent=msg[1];box.classList.remove('show');void box.offsetWidth;box.classList.add('show');clearTimeout(window._routeConfirmT);window._routeConfirmT=setTimeout(()=>box.classList.remove('show'),2200)}
   if(n>0){
     const m=checkpointMarkers[n-1];
     if(m){
