@@ -1,9 +1,13 @@
 {
-  "name":"PROJECT 4808",
-  "short_name":"PROJECT 4808",
-  "start_url":"./index.html",
-  "display":"standalone",
-  "background_color":"#101210",
-  "theme_color":"#ff5a1f",
-  "lang":"fr"
+  "name": "PROJECT 4808",
+  "short_name": "PROJECT 4808",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f6f4",
+  "theme_color": "#ff5a1f",
+  "lang": "fr",
+  "icons": [
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
 }
