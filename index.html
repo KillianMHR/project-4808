@@ -685,7 +685,7 @@ function hikePhoto(h){return PHOTO_BY_GPX[h.gpx]||'https://images.unsplash.com/p
 function isDone(name){return (user?.hikes||[]).some(h=>h.name===name)}
 let exploreMap=null,exploreMarkers=[],exploreUserMarker=null,exploreSelected=null,exploreFilter='all';
 let startGateWatchId=null,startGateNotified=false,startGateStable=0;
-const START_RADIUS_METERS=150;
+const START_RADIUS_METERS=2000;
 const MAX_TRUSTED_ACCURACY_METERS=80;
 function stopStartGateWatch(){if(startGateWatchId!==null){try{navigator.geolocation.clearWatch(startGateWatchId)}catch(e){}startGateWatchId=null}startGateStable=0}
 function setStartGateState(ready,accuracy){const b=$('sheetHikeStart');if(!b)return;b.disabled=!ready;const sub=b.querySelector('.actionSub');if(ready){if(sub)sub.textContent='Vous êtes au départ · lancer le suivi GPS';b.setAttribute('aria-label','Commencer la randonnée')}else{if(sub)sub.textContent=accuracy?`Approchez-vous du départ · GPS ±${Math.round(accuracy)} m`:'En attente de votre position GPS…';b.setAttribute('aria-label','Commencer la randonnée — disponible à proximité du départ')}}
