@@ -512,23 +512,32 @@ function initLaunchGate(){
   if(unlocked||Date.now()>=HIKE_PUBLIC_OPEN_AT)closeGate();else openGate();
   $('preBetaBtn')?.addEventListener('click',()=>{modal?.classList.add('show');modal?.setAttribute('aria-hidden','false');setTimeout(()=>{$('preBetaPassword')?.focus()},80)});
   $('preBetaCancel')?.addEventListener('click',()=>{modal?.classList.remove('show');modal?.setAttribute('aria-hidden','true');if($('preBetaPassword'))$('preBetaPassword').value='';});
-  $('preBetaForm')?.addEventListener('submit',e=>{
-    e.preventDefault();e.stopPropagation();
+  const unlockPreBeta=()=>{
     const value=String($('preBetaPassword')?.value||'').trim();
-    if(value===HIKE_PREBETA_PASSWORD){
-      localStorage.setItem('hikeplus_prebeta_unlocked','1');
-      window.hikePreBetaJustUnlocked=true;
-      closeGate();
-      if($('preBetaPassword'))$('preBetaPassword').value='';
-      const profiles=Object.keys(db.profiles||{}).length>0;
-      setMode(profiles?'login':'register');applyTheme();
-      $('app').classList.remove('active');$('auth').classList.add('active');
-      window.hikePreBetaJustUnlocked=false;
-      toast('Accès pré-bêta activé.');
-    }else{
+    if(value!==HIKE_PREBETA_PASSWORD){
       toast('Mot de passe pré-bêta incorrect.');
+      $('preBetaPassword')?.focus();
       $('preBetaPassword')?.select();
+      return;
     }
+    try{localStorage.setItem('hikeplus_prebeta_unlocked','1')}catch(e){}
+    window.hikePreBetaJustUnlocked=true;
+    closeGate();
+    if($('preBetaPassword'))$('preBetaPassword').value='';
+    const profiles=Object.keys(db.profiles||{}).length>0;
+    setMode(profiles?'login':'register');
+    applyTheme();
+    $('app').classList.remove('active');
+    $('auth').classList.add('active');
+    window.hikePreBetaJustUnlocked=false;
+    toast('Accès pré-bêta activé.');
+  };
+  $('preBetaForm')?.addEventListener('submit',e=>{e.preventDefault();e.stopPropagation();unlockPreBeta();});
+  $('preBetaForm')?.addEventListener('click',e=>{
+    const btn=e.target?.closest?.('.preBetaConfirm');
+    if(!btn)return;
+    e.preventDefault();e.stopPropagation();
+    unlockPreBeta();
   });
   window.hikeResetPreBetaGate=()=>{
     localStorage.removeItem('hikeplus_prebeta_unlocked');
