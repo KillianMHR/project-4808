@@ -700,11 +700,9 @@ function openNavChooser(h){
   if(!h||!h.nav)return;
   const lat=Number(h.lat),lon=Number(h.lon);
   if(!Number.isFinite(lat)||!Number.isFinite(lon)){toast('Point de départ indisponible');return}
-  const saved=localStorage.getItem('hikeplus_nav_app');
-  if(saved==='google'||saved==='waze'){launchNav(h,saved);return}
   const old=document.getElementById('navChoice');if(old)old.remove();
   const el=document.createElement('div');el.id='navChoice';el.className='navChoice show';
-  el.innerHTML=`<div class="navChoiceCard"><div class="navChoiceTitle">${t('navChoose')}</div><div class="navChoiceSub">${t('navChooseSub')}</div><div class="navChoiceBtns"><button class="navChoiceBtn google" data-nav="google">🗺️ Google Maps<span>${t('sheetStartSub').replace('votre GPS','your GPS')}</span></button><button class="navChoiceBtn waze" data-nav="waze">🧭 Waze<span>${t('sheetStartSub').replace('votre GPS','your GPS')}</span></button></div><button class="navChoiceCancel">${t('navCancel')}</button></div>`;
+  el.innerHTML=`<div class="navChoiceCard"><div class="navChoiceTitle">${t('navChoose')}</div><div class="navChoiceSub">${t('navChooseSub')}</div><div class="navChoiceBtns"><button class="navChoiceBtn google" data-nav="google">🗺️ Google Maps<span>${t('sheetStartSub')}</span></button><button class="navChoiceBtn waze" data-nav="waze">🧭 Waze<span>${t('sheetStartSub')}</span></button></div><button class="navChoiceCancel">${t('navCancel')}</button></div>`;
   document.body.appendChild(el);
   el.querySelectorAll('[data-nav]').forEach(btn=>btn.onclick=()=>{const app=btn.dataset.nav;localStorage.setItem('hikeplus_nav_app',app);el.remove();launchNav(h,app)});
   el.querySelector('.navChoiceCancel').onclick=()=>el.remove();
