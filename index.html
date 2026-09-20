@@ -284,7 +284,7 @@ html:not(.darkMode){color-scheme:light!important;}
 .wazeArrowBody{position:relative;width:26px;height:33px;background:linear-gradient(160deg,#4da2ff 0%,#1674ed 70%);clip-path:polygon(50% 0%,100% 92%,50% 72%,0% 92%);border-radius:10px;box-shadow:0 2px 5px rgba(0,70,160,.3)}
 .wazeArrowBody:before{display:none}
 .wazeArrowBody span{display:none}
-</style>
+.sheetMeta{display:none!important;}\n</style>
 
 
 <style id="hikeplus-beta-countdown">
@@ -644,6 +644,11 @@ const MANCHE_HIKES=[
 {name:'Le Bois-Plage-en-Ré',city:'Île de Ré',region:'Atlantique · Charente-Maritime',distance:9.37,dplus:30,duration:'~2h15',difficulty:'Facile',lat:46.176334,lon:-1.377526,nav:true,source:'GPX importé',gpx:'gpx/le-bois-plage-en-re.gpx'},
 {name:'Ars-en-Ré',city:'Île de Ré',region:'Atlantique · Charente-Maritime',distance:3.88,dplus:4,duration:'~1h00',difficulty:'Facile',lat:46.205274,lon:-1.518112,nav:true,source:'GPX importé',gpx:'gpx/ars.gpx'},
 {name:'GR34 — Bretagne (trace complète)',city:'Bretagne',region:'Bretagne · GR34',distance:1600.64,dplus:796,duration:'Itinérance',difficulty:'Difficile',lat:48.125099,lon:-1.213820,nav:true,source:'GPX importé',gpx:'gpx/GR34-Bretagne.gpx'}
+,{name:'Marseille — les Calanques et la Côte Bleue',city:'Marseille',region:'Méditerranée · Marseille',distance:88.49,dplus:3842,duration:'Itinérance',difficulty:'Difficile',lat:43.23231,lon:5.43261,nav:true,source:'GPX importé',gpx:'gpx/Marseille-les-calanques-et-la-cote-bleue.gpx'}
+,{name:'Callelongue — Mounine — Marseilleveyre',city:'Marseille',region:'Méditerranée · Calanques',distance:5.82,dplus:337,duration:'~2h00',difficulty:'Modérée',lat:43.21201,lon:5.35073,nav:true,source:'GPX importé',gpx:'gpx/Calanques-Callelongue-Mounine-Marseilleveyre.gpx'}
+,{name:'Rocher des Goudes — Marseilleveyre',city:'Les Goudes / Marseille',region:'Méditerranée · Calanques',distance:9.76,dplus:1002,duration:'~3h30',difficulty:'Difficile',lat:43.213389,lon:5.349454,nav:true,source:'GPX importé',gpx:'gpx/Boucle-Rocher-des-Goudes-et-Marseilleveyre.gpx'}
+,{name:'Sugiton — Morgiou',city:'Marseille',region:'Méditerranée · Calanques',distance:7.50,dplus:374,duration:'~2h30',difficulty:'Modérée',lat:43.230528,lon:5.436325,nav:true,source:'GPX importé',gpx:'gpx/Calanques-de-Sugiton-et-de-Morgiou.gpx'}
+
 ];
 const PHOTO_BY_GPX={
 'gpx/Cirkwi-La_route_des_forts.gpx':'https://fichier0.cirkwi.com/image/photo/circuit/1300x1300/816331/fr/0.jpg',
@@ -686,7 +691,7 @@ function watchStartProximity(h){stopStartGateWatch();if(!h||!h.nav||!navigator.g
 
 function mancheFiltered(){const q=(document.getElementById('hikeSearch')?.value||'').trim().toLowerCase();return MANCHE_HIKES.filter(h=>(!q||`${h.name} ${h.city} ${h.region}`.toLowerCase().includes(q))&&(exploreFilter==='all'||(exploreFilter==='easy'&&h.difficulty==='Facile')||(exploreFilter==='moderate'&&h.difficulty==='Modérée')||(exploreFilter==='hard'&&h.difficulty==='Difficile')||(exploreFilter==='done'&&isDone(h.name))));}
 function markerIcon(h){const done=isDone(h.name),difficult=h.difficulty==='Difficile',moderate=h.difficulty==='Modérée';const cls=`hikeMarker ${done?'done ':''}${difficult?'difficult ':''}${moderate?'moderate':''}`;const symbol=done?'✓':(difficult?'⚠':(moderate?'◆':'●'));return L.divIcon({className:'',html:`<div class="${cls}"><span>${symbol}</span></div>`,iconSize:[38,38],iconAnchor:[19,38]});}
-function openHikeSheet(h){stopStartGateWatch();startGateNotified=false;exploreSelected=h;const s=$('exploreSheet');if(!s)return;const done=isDone(h.name);$('sheetEyebrow').textContent=`${h.region} · ${h.city}`;$('sheetTitle').textContent=h.name;$('sheetMeta').textContent=`${h.source} · Manche`;$('sheetDistance').textContent=h.distance;$('sheetDplus').textContent='+'+h.dplus;$('sheetDuration').textContent=h.duration;$('sheetDifficulty').textContent=h.difficulty;$('sheetDone').textContent=done?'✓ Rando déjà faite':'';const b=$('sheetStart');b.disabled=!h.nav;b.textContent=h.nav?'Aller au départ':'Tracé GPX à ajouter';setStartGateState(false);s.classList.add('show');if(exploreMap)exploreMap.panTo([h.lat,h.lon],{animate:true});if(h.nav)watchStartProximity(h);}
+function openHikeSheet(h){stopStartGateWatch();startGateNotified=false;exploreSelected=h;const s=$('exploreSheet');if(!s)return;const done=isDone(h.name);$('sheetEyebrow').textContent=`${h.region} · ${h.city}`;$('sheetTitle').textContent=h.name;$('sheetMeta').textContent='';$('sheetDistance').textContent=h.distance;$('sheetDplus').textContent='+'+h.dplus;$('sheetDuration').textContent=h.duration;$('sheetDifficulty').textContent=h.difficulty;$('sheetDone').textContent=done?'✓ Rando déjà faite':'';const b=$('sheetStart');b.disabled=!h.nav;b.textContent=h.nav?'Aller au départ':'Tracé GPX à ajouter';setStartGateState(false);s.classList.add('show');if(exploreMap)exploreMap.panTo([h.lat,h.lon],{animate:true});if(h.nav)watchStartProximity(h);}
 function openNavChooser(h){
   if(!h||!h.nav)return;
   const lat=Number(h.lat),lon=Number(h.lon);
@@ -706,7 +711,7 @@ function launchNav(h,app){
   localStorage.setItem('hikeplus_pending_start',JSON.stringify({name:h.name,lat,lon}));
   const target=encodeURIComponent(lat+','+lon);
   const web=app==='waze'?`https://www.waze.com/ul?ll=${encodeURIComponent(lat+','+lon)}&navigate=yes`:`https://www.google.com/maps/dir/?api=1&destination=${target}&travelmode=driving`;
-  const ios=app==='waze'?`waze://?ll=${encodeURIComponent(lat+','+lon)}&navigate=yes`:`comgooglemaps://?daddr=${target}&directionsmode=walking`;
+  const ios=app==='waze'?`waze://?ll=${encodeURIComponent(lat+','+lon)}&navigate=yes`:`comgooglemaps://?daddr=${target}&directionsmode=driving`;
   let left=false;
   const onHide=()=>{left=true;document.removeEventListener('visibilitychange',onHide)};
   document.addEventListener('visibilitychange',onHide);
