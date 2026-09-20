@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="HIKE+ Test" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk><name>Test GPS — Avenue de Bremerhaven</name><trkseg>
+    <trkpt lat="49.634200" lon="-1.595770"><ele>20</ele></trkpt>
+    <trkpt lat="49.634350" lon="-1.595650"><ele>21</ele></trkpt>
+    <trkpt lat="49.634500" lon="-1.595500"><ele>22</ele></trkpt>
+    <trkpt lat="49.634650" lon="-1.595300"><ele>23</ele></trkpt>
+    <trkpt lat="49.634800" lon="-1.595100"><ele>24</ele></trkpt>
+    <trkpt lat="49.634650" lon="-1.594850"><ele>23</ele></trkpt>
+    <trkpt lat="49.634450" lon="-1.594700"><ele>22</ele></trkpt>
+    <trkpt lat="49.634250" lon="-1.594850"><ele>21</ele></trkpt>
+    <trkpt lat="49.634100" lon="-1.595100"><ele>21</ele></trkpt>
+    <trkpt lat="49.634000" lon="-1.595400"><ele>20</ele></trkpt>
+    <trkpt lat="49.634050" lon="-1.595650"><ele>20</ele></trkpt>
+    <trkpt lat="49.634200" lon="-1.595770"><ele>20</ele></trkpt>
+  </trkseg></trk>
+</gpx>
