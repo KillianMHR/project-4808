@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="HIKE+ Test" xmlns="http://www.topografix.com/GPX/1/1">
+<trk><name>Test HIKE+ — Bremerhaven</name><trkseg>
+<trkpt lat="49.6342010" lon="-1.5957700"><ele>20</ele></trkpt>
+<trkpt lat="49.6372010" lon="-1.5947700"><ele>20</ele></trkpt>
+<trkpt lat="49.6382010" lon="-1.5917700"><ele>20</ele></trkpt>
+<trkpt lat="49.6362010" lon="-1.5897700"><ele>20</ele></trkpt>
+<trkpt lat="49.6332010" lon="-1.5907700"><ele>20</ele></trkpt>
+<trkpt lat="49.6312010" lon="-1.5927700"><ele>20</ele></trkpt>
+<trkpt lat="49.6322010" lon="-1.5952700"><ele>20</ele></trkpt>
+<trkpt lat="49.6342010" lon="-1.5957700"><ele>20</ele></trkpt>
+</trkseg></trk></gpx>

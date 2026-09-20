@@ -576,7 +576,7 @@ const routeData={name:'La route des forts',distance:9.8,dplus:178,gpx:'gpx/Cirkw
 function totalKm(){return (user?.hikes||[]).reduce((s,h)=>s+Math.max(0,Number(h.distance)||0),0)}function totalDplus(){return (user?.hikes||[]).reduce((s,h)=>s+Math.max(0,Number(h.dplus)||0),0)}
 
 const MANCHE_HIKES=[
-{name:'La Route des Forts',city:'Cherbourg-en-Cotentin',region:'Cherbourg',distance:9.8,dplus:178,duration:'2h30',difficulty:'Facile',lat:49.657000,lon:-1.670472,nav:true,source:'Tourisme en Cotentin',gpx:'gpx/Cirkwi-La_route_des_forts.gpx',nav:true},
+{name:'Test HIKE+ — Bremerhaven',city:'Cherbourg-en-Cotentin',region:'Test GPS',distance:1.8,dplus:25,duration:'35 min',difficulty:'Facile',lat:49.634201,lon:-1.595770,nav:true,source:'HIKE+ Test',gpx:'gpx/test_bremerhaven.gpx',startAddress:'10 avenue de Bremerhaven, 50100 Cherbourg-en-Cotentin'},
 {name:'Les hauteurs du Becquet',city:'Digosville',region:'Cherbourg',distance:8.2,dplus:92,duration:'2h00',difficulty:'Modérée',lat:49.629472,lon:-1.531206,source:'Tourisme en Cotentin',gpx:'gpx/Les_hauteurs_du_Becquet.gpx',nav:true},
 {name:'Au fil de la Couplière',city:'Tocqueville',region:'Val de Saire',distance:5.9,dplus:92,duration:'1h30',difficulty:'Facile',lat:49.670487,lon:-1.336579,source:'Tourisme en Cotentin',gpx:'gpx/Au_fil_de_la_Coupliere.gpx',nav:true},
 {name:'La Pointe des Mares',city:'Vicq-sur-Mer',region:'Val de Saire',distance:6.0,dplus:41,duration:'2h00',difficulty:'Modérée',lat:49.696588,lon:-1.358022,source:'Tourisme en Cotentin',gpx:'gpx/La_Pointe_des_Mares.gpx',nav:true},
