@@ -488,8 +488,6 @@ const $=id=>document.getElementById(id);let mode='login',user=null;
 // HIKE+ V1.13 — verrouillage jusqu’à l’ouverture officielle + accès pré-bêta
 const HIKE_PUBLIC_OPEN_AT = new Date('2026-10-03T10:00:00+02:00').getTime();
 const HIKE_PREBETA_PASSWORD = 'PREBETA2026APPHIKE+';
-const HIKE_PREBETA_GATE_VERSION = 'v1.13';
-try{if(localStorage.getItem('hikeplus_prebeta_gate_version')!==HIKE_PREBETA_GATE_VERSION){localStorage.removeItem('hikeplus_prebeta_unlocked');localStorage.setItem('hikeplus_prebeta_gate_version',HIKE_PREBETA_GATE_VERSION)}}catch(e){}
 function initLaunchGate(){
   const gate=$('launchGate'), modal=$('preBetaModal');
   if(!gate)return;
