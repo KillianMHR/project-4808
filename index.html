@@ -534,10 +534,9 @@ function initLaunchGate(){
     if(typeof toast==='function')toast('Accès pré-bêta activé.');
     return true;
   };
-  // iPhone/Safari: validation directe du bouton, sans dépendre du submit du formulaire.
+  // iPhone/Safari: validation directe du bouton, sans submit ni double événement tactile.
   window.__hikeUnlockPreBeta=unlockPreBeta;
   $('preBetaConfirm')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();unlockPreBeta();},true);
-  $('preBetaConfirm')?.addEventListener('touchend',e=>{e.preventDefault();e.stopPropagation();unlockPreBeta();},{passive:false});
   $('preBetaPassword')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();unlockPreBeta();}});
   $('preBetaForm')?.addEventListener('submit',e=>{e.preventDefault();e.stopPropagation();unlockPreBeta();});
   window.hikeResetPreBetaGate=()=>{
