@@ -1,3 +1,3 @@
-# HIKE+ V1.3 — Beta
+# HIKE+ V1.4 — Logo intégré
 
-Logo HIKE+ renouvelé avec un emblème outdoor original, orange et blanc, inspiré de l'énergie des apps sportives sans reprendre une identité existante.
+Nouveau logo montagne intégré dans le splash screen, connexion/création de compte et icône PWA. Version bêta.
