@@ -684,10 +684,12 @@ const PHOTO_BY_GPX={
 function hikePhoto(h){return PHOTO_BY_GPX[h.gpx]||'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1200&q=85'}
 function isDone(name){return (user?.hikes||[]).some(h=>h.name===name)}
 let exploreMap=null,exploreMarkers=[],exploreUserMarker=null,exploreSelected=null,exploreFilter='all';
-let startGateWatchId=null,startGateNotified=false;
-function stopStartGateWatch(){if(startGateWatchId!==null){try{navigator.geolocation.clearWatch(startGateWatchId)}catch(e){}startGateWatchId=null}}
+let startGateWatchId=null,startGateNotified=false,startGateStable=0;
+const START_RADIUS_METERS=150;
+const MAX_TRUSTED_ACCURACY_METERS=80;
+function stopStartGateWatch(){if(startGateWatchId!==null){try{navigator.geolocation.clearWatch(startGateWatchId)}catch(e){}startGateWatchId=null}startGateStable=0}
 function setStartGateState(ready,accuracy){const b=$('sheetHikeStart');if(!b)return;b.disabled=!ready;const sub=b.querySelector('.actionSub');if(ready){if(sub)sub.textContent='Vous êtes au départ · lancer le suivi GPS';b.setAttribute('aria-label','Commencer la randonnée')}else{if(sub)sub.textContent=accuracy?`Approchez-vous du départ · GPS ±${Math.round(accuracy)} m`:'En attente de votre position GPS…';b.setAttribute('aria-label','Commencer la randonnée — disponible à proximité du départ')}}
-function watchStartProximity(h){stopStartGateWatch();if(!h||!h.nav||!navigator.geolocation){setStartGateState(false);return}setStartGateState(false);const target={lat:Number(h.lat),lon:Number(h.lon)};const check=pos=>{const p={lat:pos.coords.latitude,lon:pos.coords.longitude};const d=hav(p,target);setStartGateState(d<=2000,pos.coords.accuracy);if(d<=2000)toast('📍 Vous êtes au départ — la randonnée peut commencer !')};const err=()=>setStartGateState(false);navigator.geolocation.getCurrentPosition(check,err,{enableHighAccuracy:true,maximumAge:5000,timeout:12000});startGateWatchId=navigator.geolocation.watchPosition(check,err,{enableHighAccuracy:true,maximumAge:3000,timeout:15000})}
+function watchStartProximity(h){stopStartGateWatch();if(!h||!h.nav||!navigator.geolocation){setStartGateState(false);return}setStartGateState(false);const target={lat:Number(h.lat),lon:Number(h.lon)};const check=pos=>{const c=pos.coords;const accuracy=Number(c.accuracy);if(!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)){setStartGateState(false);return}const p={lat:c.latitude,lon:c.longitude};const d=hav(p,target);const trusted=Number.isFinite(accuracy)&&accuracy>0&&accuracy<=MAX_TRUSTED_ACCURACY_METERS;const inside=d<=START_RADIUS_METERS;const ready=inside&&trusted;if(ready){startGateStable++;}else{startGateStable=0}setStartGateState(startGateStable>=2,accuracy);if(startGateStable===2&&!startGateNotified){startGateNotified=true;toast('📍 Vous êtes au départ — la randonnée peut commencer !')}};const err=()=>{startGateStable=0;startGateNotified=false;setStartGateState(false)};navigator.geolocation.getCurrentPosition(check,err,{enableHighAccuracy:true,maximumAge:0,timeout:15000});startGateWatchId=navigator.geolocation.watchPosition(check,err,{enableHighAccuracy:true,maximumAge:0,timeout:15000})}
 
 function mancheFiltered(){const q=(document.getElementById('hikeSearch')?.value||'').trim().toLowerCase();return MANCHE_HIKES.filter(h=>(!q||`${h.name} ${h.city} ${h.region}`.toLowerCase().includes(q))&&(exploreFilter==='all'||(exploreFilter==='easy'&&h.difficulty==='Facile')||(exploreFilter==='moderate'&&h.difficulty==='Modérée')||(exploreFilter==='hard'&&h.difficulty==='Difficile')||(exploreFilter==='done'&&isDone(h.name))));}
 function markerIcon(h){const done=isDone(h.name),difficult=h.difficulty==='Difficile',moderate=h.difficulty==='Modérée';const cls=`hikeMarker ${done?'done ':''}${difficult?'difficult ':''}${moderate?'moderate':''}`;const symbol=done?'✓':(difficult?'⚠':(moderate?'◆':'●'));return L.divIcon({className:'',html:`<div class="${cls}"><span>${symbol}</span></div>`,iconSize:[38,38],iconAnchor:[19,38]});}
@@ -1025,10 +1027,11 @@ function onGPS(pos){
   // of the route must never validate checkpoints automatically.
   if(!navStarted){
     const startDist=hav(p,pts[0]);
+    const gpsAccuracy=Number(c.accuracy);
     $('remaining').textContent=(total/1000).toFixed(2)+' km';
     $('distance').textContent='0.00';
     $('dplus').textContent='0';
-    if(startDist<=150){
+    if(startDist<=START_RADIUS_METERS && Number.isFinite(gpsAccuracy) && gpsAccuracy>0 && gpsAccuracy<=MAX_TRUSTED_ACCURACY_METERS){
       navStarted=true;
       startProximitySince=0;
       offRouteSince=0;
