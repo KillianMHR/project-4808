@@ -158,6 +158,14 @@ body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro D
 
 /* V2.9.8 — home profile + guided menu tour */
 .homeProfileRow{display:flex;align-items:center;gap:11px;margin:2px 3px 13px}.homeProfileAvatar{width:48px;height:48px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:#173f2f;color:#fff;font-weight:950;flex:0 0 auto;box-shadow:0 3px 12px #0002;border:2px solid #fff}.homeProfileAvatar img{width:100%;height:100%;object-fit:cover}.homeProfileRow .refWelcome{margin:0}.homeProfileSub{font-size:10px;color:#7d847c;margin-top:2px}.refOutdoorCountdown span{min-width:64px!important;padding:10px 12px!important;font-size:13px}.refOutdoorCountdown span strong{font-size:18px}.tutorialTarget{position:relative!important;z-index:40003!important;box-shadow:0 0 0 3px #fc4c02,0 0 0 8px rgba(252,76,2,.18)!important;animation:tutorialPulse 1.2s ease-in-out infinite}.tutorial{z-index:40000}.tutorialCard{position:relative;z-index:40002}.menuBackdrop.show{z-index:39999!important}.sideMenu.show{z-index:40001!important;filter:none!important}.tutorialMenuVisible #sideMenu{z-index:40001!important;filter:none!important}.tutorialMenuVisible #menuBackdrop{z-index:39999!important}.tutorialMenuVisible .menuLink.tutorialTarget{z-index:40003!important}
+/* On small screens, keep the tutorial card over the menu but move it high enough to leave the highlighted menu item visible. */
+@media (max-width:600px){
+  .tutorialMenuVisible .tutorial{align-items:flex-start!important;justify-content:flex-start!important;padding:0!important;pointer-events:auto}
+  .tutorialMenuVisible .tutorialCard{position:fixed!important;left:14px!important;top:188px!important;width:min(370px,calc(100vw - 28px))!important;max-height:330px!important;overflow:auto!important;padding:20px!important;z-index:40010!important}
+  .tutorialMenuVisible #sideMenu{z-index:40001!important}
+  .tutorialMenuVisible .menuLink.tutorialTarget{z-index:40003!important}
+}
+@media (min-width:601px){.tutorialMenuVisible .tutorialCard{z-index:40010!important}}
 @keyframes tutorialPulse{50%{transform:scale(1.015)}}
 
 /* V2.9.8 — Home profile + guided menu tour */
