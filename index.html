@@ -493,10 +493,9 @@ const HIKE_PREBETA_PASSWORD = 'PREBETA2026APPHIKE+';
 function initLaunchGate(){
   const gate=$('launchGate'), modal=$('preBetaModal');
   if(!gate)return;
-  const unlocked=localStorage.getItem('hikeplus_prebeta_unlocked')==='1';
-  const closeGate=()=>{gate.classList.add('hidden');if(modal)modal.classList.remove('show');document.body.classList.remove('launchLocked');};
+  const closeGate=()=>{gate.classList.add('hidden');if(modal)modal.classList.remove('show');document.body.classList.remove('launchLocked');if(window.hikeLaunchTimer){clearInterval(window.hikeLaunchTimer);window.hikeLaunchTimer=null}};
   const tick=()=>{
-    if(Date.now()>=HIKE_PUBLIC_OPEN_AT){closeGate();clearInterval(window.hikeLaunchTimer);return;}
+    if(Date.now()>=HIKE_PUBLIC_OPEN_AT){closeGate();return;}
     let d=Math.max(0,HIKE_PUBLIC_OPEN_AT-Date.now());
     const days=Math.floor(d/86400000);d%=86400000;
     const hours=Math.floor(d/3600000);d%=3600000;
@@ -504,10 +503,39 @@ function initLaunchGate(){
     const set=(id,v)=>{const el=$(id);if(el)el.textContent=String(v).padStart(2,'0')};
     set('launchDays',days);set('launchHours',hours);set('launchMinutes',mins);set('launchSeconds',secs);
   };
-  if(unlocked||Date.now()>=HIKE_PUBLIC_OPEN_AT)closeGate();else{document.body.classList.add('launchLocked');tick();window.hikeLaunchTimer=setInterval(tick,1000);}
-  $('preBetaBtn')?.addEventListener('click',()=>{modal?.classList.add('show');modal?.setAttribute('aria-hidden','false');setTimeout(()=>$('preBetaPassword')?.focus(),80)});
-  $('preBetaCancel')?.addEventListener('click',()=>{modal?.classList.remove('show');modal?.setAttribute('aria-hidden','true');$('preBetaPassword').value='';});
-  $('preBetaForm')?.addEventListener('submit',e=>{e.preventDefault();const value=$('preBetaPassword')?.value||'';if(value===HIKE_PREBETA_PASSWORD){localStorage.setItem('hikeplus_prebeta_unlocked','1');window.hikePreBetaJustUnlocked=true;closeGate();$('preBetaPassword').value='';toast('Accès pré-bêta activé.');}else{toast('Mot de passe pré-bêta incorrect.');$('preBetaPassword').select();}});
+  const openGate=()=>{
+    if(Date.now()>=HIKE_PUBLIC_OPEN_AT){closeGate();return;}
+    gate.classList.remove('hidden');document.body.classList.add('launchLocked');tick();
+    if(!window.hikeLaunchTimer)window.hikeLaunchTimer=setInterval(tick,1000);
+  };
+  const unlocked=localStorage.getItem('hikeplus_prebeta_unlocked')==='1';
+  if(unlocked||Date.now()>=HIKE_PUBLIC_OPEN_AT)closeGate();else openGate();
+  $('preBetaBtn')?.addEventListener('click',()=>{modal?.classList.add('show');modal?.setAttribute('aria-hidden','false');setTimeout(()=>{$('preBetaPassword')?.focus()},80)});
+  $('preBetaCancel')?.addEventListener('click',()=>{modal?.classList.remove('show');modal?.setAttribute('aria-hidden','true');if($('preBetaPassword'))$('preBetaPassword').value='';});
+  $('preBetaForm')?.addEventListener('submit',e=>{
+    e.preventDefault();e.stopPropagation();
+    const value=String($('preBetaPassword')?.value||'').trim();
+    if(value===HIKE_PREBETA_PASSWORD){
+      localStorage.setItem('hikeplus_prebeta_unlocked','1');
+      window.hikePreBetaJustUnlocked=true;
+      closeGate();
+      if($('preBetaPassword'))$('preBetaPassword').value='';
+      const profiles=Object.keys(db.profiles||{}).length>0;
+      setMode(profiles?'login':'register');applyTheme();
+      $('app').classList.remove('active');$('auth').classList.add('active');
+      window.hikePreBetaJustUnlocked=false;
+      toast('Accès pré-bêta activé.');
+    }else{
+      toast('Mot de passe pré-bêta incorrect.');
+      $('preBetaPassword')?.select();
+    }
+  });
+  window.hikeResetPreBetaGate=()=>{
+    localStorage.removeItem('hikeplus_prebeta_unlocked');
+    window.hikePreBetaJustUnlocked=false;
+    if(modal){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');}
+    openGate();
+  };
 }
 
 function showHomeArrival(){const old=document.querySelector('.homeArrival');if(old)old.remove();const el=document.createElement('div');el.className='homeArrival';el.innerHTML='<div class="homeArrivalBg"></div><div class="homeArrivalInner"><div class="homeArrivalMark">+</div><div class="homeArrivalTitle">HIKE+</div><div class="homeArrivalSub">Cap sur le hiking</div><div class="homeArrivalLine"><i></i></div></div>';document.body.appendChild(el);setTimeout(()=>el.remove(),3600)}
@@ -710,7 +738,7 @@ function showCertificationSuccess(bonusXp=70){let el=$('certSuccessOverlay');if(
     const cdSel=$('countdownDuration');if(cdSel)cdSel.onchange=()=>{const v=Number(cdSel.value);if([5,10,15,20,30,35,60].includes(v)){user.countdownDuration=v;db.profiles[db.current]=user;persist();toast('Compte à rebours réglé sur '+v+' s')}};
     $('darkModeToggle').onclick=()=>{user.darkMode=!user.darkMode;db.profiles[db.current]=user;persist();applyTheme();render('settings')};
     $('reset').onclick=()=>{
-      if(confirm('Effacer ce compte et toutes ses données locales ?')){delete db.profiles[db.current];db.current='';persist();logout()}
+      if(confirm('Effacer ce compte et toutes ses données locales ?')){delete db.profiles[db.current];db.current='';persist();logout();window.hikeResetPreBetaGate?.()}
     };
   }
 }
