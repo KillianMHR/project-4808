@@ -485,7 +485,7 @@ const STORE='hikeplus_beta_v1';
 let db={profiles:{},current:''};try{db=JSON.parse(localStorage.getItem(STORE)||'{}');if(!db.profiles)db.profiles={}}catch(e){db={profiles:{},current:''}}
 const $=id=>document.getElementById(id);let mode='login',user=null;
 
-// HIKE+ V1.12 — verrouillage jusqu’à l’ouverture officielle + accès pré-bêta
+// HIKE+ V1.13 — accès pré-bêta iPhone renforcé
 const HIKE_PUBLIC_OPEN_AT = new Date('2026-10-03T10:00:00+02:00').getTime();
 const HIKE_PREBETA_PASSWORD = 'PREBETA2026APPHIKE+';
 function initLaunchGate(){
@@ -512,8 +512,12 @@ function initLaunchGate(){
   $('preBetaCancel')?.addEventListener('click',()=>{modal?.classList.remove('show');modal?.setAttribute('aria-hidden','true');if($('preBetaPassword'))$('preBetaPassword').value='';});
   const unlockPreBeta=()=>{
     const input=$('preBetaPassword');
-    const value=String(input?.value||'').trim();
-    if(value!==HIKE_PREBETA_PASSWORD){
+    const rawValue=String(input?.value||'');
+    const value=rawValue.normalize('NFKC').replace(/[\u200B-\u200D\uFEFF]/g,'').trim();
+    // iPhone/Safari peut interpréter ou omettre le '+' final selon le clavier/presse-papiers.
+    const normalizedPassword=HIKE_PREBETA_PASSWORD.normalize('NFKC');
+    const accepted=value===normalizedPassword || value===normalizedPassword.slice(0,-1) || value.replace(/[＋﹢]/g,'+')===normalizedPassword;
+    if(!accepted){
       if(typeof toast==='function')toast('Mot de passe pré-bêta incorrect.');
       input?.focus();
       input?.select();
