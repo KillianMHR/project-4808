@@ -635,7 +635,15 @@ const MANCHE_HIKES=[
 {name:'Bocage au Coeur du Cotentin',city:'Manche',region:'Cotentin',distance:10.71,dplus:152,duration:'2h30',difficulty:'Facile',lat:49.510688,lon:-1.437893,nav:true,source:'Cirkwi',gpx:'gpx/Cirkwi-Bocage_au_Coeur_du_Cotentin.gpx'},
 {name:'GR223 — Saint-Vaast-la-Hougue → Phare de Gatteville',city:'Saint-Vaast-la-Hougue',region:'Val de Saire',distance:17.15,dplus:139,duration:'4h15',difficulty:'Modérée',lat:49.585350,lon:-1.262370,nav:true,source:'Cirkwi',gpx:'gpx/Cirkwi-GR_223_-_Saint-Vaast-la-Hougue_-_Phare_de_Gatteville.gpx'},
 {name:'GR223 — Sainte-Mère-Église → Fontenay-sur-Mer',city:'Sainte-Mère-Église',region:'Cotentin Est',distance:13.98,dplus:123,duration:'3h30',difficulty:'Modérée',lat:49.408600,lon:-1.317660,nav:true,source:'Cirkwi',gpx:'gpx/Cirkwi-GR_223_-_Sainte-M_re-Eglise_-_Fontenay-sur-Mer.gpx'},
-{name:'Les chemins du Mont-Saint-Michel — Cherbourg → Les Pieux',city:'Cherbourg-en-Cotentin',region:'Cotentin',distance:26.15,dplus:531,duration:'6h00',difficulty:'Difficile',lat:49.642340,lon:-1.622760,nav:true,source:'Cirkwi',gpx:'gpx/Cirkwi-Les_chemins_du_Mont-Saint-Michel_-_Chemin_de_Cherbourg_-_Cherbourg-en-Cotentin_-_Les_Pieux.gpx'}
+{name:'Les chemins du Mont-Saint-Michel — Cherbourg → Les Pieux',city:'Cherbourg-en-Cotentin',region:'Cotentin',distance:26.15,dplus:531,duration:'6h00',difficulty:'Difficile',lat:49.642340,lon:-1.622760,nav:true,source:'Cirkwi',gpx:'gpx/Cirkwi-Les_chemins_du_Mont-Saint-Michel_-_Chemin_de_Cherbourg_-_Cherbourg-en-Cotentin_-_Les_Pieux.gpx'},
+{name:'Boucle de la Côte de Granit Rose',city:'Lannion',region:'Bretagne · Côte de Granit Rose',distance:81.42,dplus:576,duration:'4 jours',difficulty:'Difficile',lat:48.731832,lon:-3.462010,nav:true,source:'Office de Tourisme Côte de Granit Rose',gpx:'gpx/GPX-Boucle-CGR.gpx'},
+{name:'Tour de la Pointe du Van',city:'Pointe du Van',region:'Bretagne · Finistère',distance:10.55,dplus:301,duration:'~3h00',difficulty:'Modérée',lat:48.045697,lon:-4.705665,nav:true,source:'Visorando',gpx:'gpx/visorando-tour-de-la-pointe-du-van.gpx'},
+{name:'Sur les pas de Jean-François Millet',city:'Gréville-Hague',region:'Normandie · La Hague',distance:13.21,dplus:451,duration:'~3h15',difficulty:'Modérée',lat:49.682200,lon:-1.791260,nav:true,source:'Cirkwi',gpx:'gpx/Cirkwi-Sur_les_pas_de_Jean-François_Millet_-_n°101.gpx'},
+{name:'Sentier du Corsaire',city:'Digulleville',region:'Normandie · La Hague',distance:12.22,dplus:293,duration:'~2h30',difficulty:'Modérée',lat:49.696030,lon:-1.854190,nav:true,source:'Cirkwi',gpx:'gpx/Cirkwi-Sentier_du_Corsaire_-_n°102.gpx'},
+{name:'Saint-Clément-les-Portes',city:'Île de Ré',region:'Atlantique · Charente-Maritime',distance:19.91,dplus:69,duration:'~4h30',difficulty:'Modérée',lat:46.228474,lon:-1.541867,nav:true,source:'GPX importé',gpx:'gpx/saint-clement-les-portes.gpx'},
+{name:'Le Bois-Plage-en-Ré',city:'Île de Ré',region:'Atlantique · Charente-Maritime',distance:9.37,dplus:30,duration:'~2h15',difficulty:'Facile',lat:46.176334,lon:-1.377526,nav:true,source:'GPX importé',gpx:'gpx/le-bois-plage-en-re.gpx'},
+{name:'Ars-en-Ré',city:'Île de Ré',region:'Atlantique · Charente-Maritime',distance:3.88,dplus:4,duration:'~1h00',difficulty:'Facile',lat:46.205274,lon:-1.518112,nav:true,source:'GPX importé',gpx:'gpx/ars.gpx'},
+{name:'GR34 — Bretagne (trace complète)',city:'Bretagne',region:'Bretagne · GR34',distance:1600.64,dplus:796,duration:'Itinérance',difficulty:'Difficile',lat:48.125099,lon:-1.213820,nav:true,source:'GPX importé',gpx:'gpx/GR34-Bretagne.gpx'}
 ];
 const PHOTO_BY_GPX={
 'gpx/Cirkwi-La_route_des_forts.gpx':'https://fichier0.cirkwi.com/image/photo/circuit/1300x1300/816331/fr/0.jpg',
@@ -687,7 +695,7 @@ function openNavChooser(h){
   if(saved==='google'||saved==='waze'){launchNav(h,saved);return}
   const old=document.getElementById('navChoice');if(old)old.remove();
   const el=document.createElement('div');el.id='navChoice';el.className='navChoice show';
-  el.innerHTML=`<div class="navChoiceCard"><div class="navChoiceTitle">Choisir votre GPS</div><div class="navChoiceSub">L’itinéraire sera ouvert jusqu’au point de départ de la randonnée.</div><div class="navChoiceBtns"><button class="navChoiceBtn google" data-nav="google">🗺️ Google Maps<span>Ouvrir l’itinéraire à pied</span></button><button class="navChoiceBtn waze" data-nav="waze">🧭 Waze<span>Ouvrir l’itinéraire à pied</span></button></div><button class="navChoiceCancel">Annuler</button></div>`;
+  el.innerHTML=`<div class="navChoiceCard"><div class="navChoiceTitle">Choisir votre GPS</div><div class="navChoiceSub">L’itinéraire sera ouvert jusqu’au point de départ de la randonnée.</div><div class="navChoiceBtns"><button class="navChoiceBtn google" data-nav="google">🗺️ Google Maps<span>Ouvrir l’itinéraire en voiture</span></button><button class="navChoiceBtn waze" data-nav="waze">🧭 Waze<span>Ouvrir l’itinéraire en voiture</span></button></div><button class="navChoiceCancel">Annuler</button></div>`;
   document.body.appendChild(el);
   el.querySelectorAll('[data-nav]').forEach(btn=>btn.onclick=()=>{const app=btn.dataset.nav;localStorage.setItem('hikeplus_nav_app',app);el.remove();launchNav(h,app)});
   el.querySelector('.navChoiceCancel').onclick=()=>el.remove();
@@ -697,7 +705,7 @@ function launchNav(h,app){
   const lat=Number(h.lat),lon=Number(h.lon);
   localStorage.setItem('hikeplus_pending_start',JSON.stringify({name:h.name,lat,lon}));
   const target=encodeURIComponent(lat+','+lon);
-  const web=app==='waze'?`https://www.waze.com/ul?ll=${encodeURIComponent(lat+','+lon)}&navigate=yes`:`https://www.google.com/maps/dir/?api=1&destination=${target}&travelmode=walking`;
+  const web=app==='waze'?`https://www.waze.com/ul?ll=${encodeURIComponent(lat+','+lon)}&navigate=yes`:`https://www.google.com/maps/dir/?api=1&destination=${target}&travelmode=driving`;
   const ios=app==='waze'?`waze://?ll=${encodeURIComponent(lat+','+lon)}&navigate=yes`:`comgooglemaps://?daddr=${target}&directionsmode=walking`;
   let left=false;
   const onHide=()=>{left=true;document.removeEventListener('visibilitychange',onHide)};
