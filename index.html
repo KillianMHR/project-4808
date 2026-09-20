@@ -685,7 +685,7 @@ function hikePhoto(h){return PHOTO_BY_GPX[h.gpx]||'https://images.unsplash.com/p
 function isDone(name){return (user?.hikes||[]).some(h=>h.name===name)}
 let exploreMap=null,exploreMarkers=[],exploreUserMarker=null,exploreSelected=null,exploreFilter='all';
 let startGateWatchId=null,startGateNotified=false,startGateStable=0;
-const START_RADIUS_METERS=2000;
+const START_RADIUS_METERS=4000;
 const MAX_TRUSTED_ACCURACY_METERS=80;
 function stopStartGateWatch(){if(startGateWatchId!==null){try{navigator.geolocation.clearWatch(startGateWatchId)}catch(e){}startGateWatchId=null}startGateStable=0}
 function setStartGateState(ready,accuracy){const b=$('sheetHikeStart');if(!b)return;b.disabled=!ready;const sub=b.querySelector('.actionSub');if(ready){if(sub)sub.textContent='Vous êtes au départ · lancer le suivi GPS';b.setAttribute('aria-label','Commencer la randonnée')}else{if(sub)sub.textContent=accuracy?`Approchez-vous du départ · GPS ±${Math.round(accuracy)} m`:'En attente de votre position GPS…';b.setAttribute('aria-label','Commencer la randonnée — disponible à proximité du départ')}}
@@ -779,7 +779,7 @@ const I18N={
     homeSub:'Ready for a new adventure?',homeTag:'HIKE+ · PRE-BETA',betaStatus:'· HIKE+ is currently in testing',betaNew:'New hikes coming soon',levelLabelMenu:'Level',hikingGoal:'Hiking goal',homeTitle:'Explore. Hike. Progress.',homeDesc:'Discover hikes, follow your route and build your experience with every outing.',
     search:'Find a hike',searchSub:'Find a trail around you',map:'View my map',mapSub:'Hikes available in France',progress:'My progress',hikes:'My hikes',recommend:'Our recommendations',forYou:'For you',more:'See more hikes →',start:'Start hike →',
     seasonNotice:'⚠️ Your account will be deleted when Season 1 launches.',
-    hikesSearch:'🔎 City, region or hike…',all:'All',easy:'Easy',moderate:'Moderate',hard:'Hard',done:'✓ Completed',sheetStart:'Go to start',sheetStartSub:'Open the route in your GPS',sheetHike:'Start the hike',sheetHikeSub:'Start GPS tracking for this hike',sheetGuide:'Go to the starting point with your GPS, then start the hike when you are within 150 m of the start.',
+    hikesSearch:'🔎 City, region or hike…',all:'All',easy:'Easy',moderate:'Moderate',hard:'Hard',done:'✓ Completed',sheetStart:'Go to start',sheetStartSub:'Open the route in your GPS',sheetHike:'Start the hike',sheetHikeSub:'Start GPS tracking for this hike',sheetGuide:'Go to the starting point with your GPS, then start the hike when you are within 4 km of the start.',
     settingsEyebrow:'Account',settingsTitle:'Settings',changePhoto:'Change photo',deletePhoto:'Delete',profileCertified:'Certified profile',profileNotCertified:'Profile not certified',getCert:'Get certified',countdown:'Start countdown',countdownSub:'Time before the GPS and timer officially start.',dark:'Dark mode',darkSub:'Adapt the whole interface to a dark theme.',language:'App language',languageSub:'Choose the interface language.',french:'French',english:'English',reset:'Reset data',
     finish:'Finish hike',time:'TIME',km:'KM',dplus:'ELEV.',durationLabel:'DURATION',levelLabel:'LEVEL',gps:'GPS',finished:'HIKE COMPLETED',well:'Well done.',xp:'XP EARNED',continue:'Continue',
     confirmStop:'Are you sure you want to stop the hike? You will not earn any XP.',confirmYes:'Yes, stop',confirmNo:'Continue',
