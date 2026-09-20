@@ -419,9 +419,60 @@ html.darkMode, html.darkMode body { background-color:#101210 !important; }
   }
   html.darkMode::before { background:#101210 !important; }
 }
+
+/* HIKE+ V1.6 — lancement public programmé + accès pré-bêta */
+.launchGate{position:fixed;inset:0;z-index:60000;display:flex;align-items:center;justify-content:center;padding:22px;background:#101510;overflow:auto;color:#fff}
+.launchGate.hidden{display:none!important}
+.launchGateBg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1800&q=90') center/cover no-repeat;filter:saturate(.88) blur(.2px);transform:scale(1.03)}
+.launchGateBg:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,14,10,.34),rgba(5,10,8,.86))}
+.launchGateCard{position:relative;z-index:1;width:min(440px,100%);padding:32px 25px 24px;border:1px solid rgba(255,255,255,.2);border-radius:28px;background:rgba(18,24,20,.78);backdrop-filter:blur(22px) saturate(1.12);-webkit-backdrop-filter:blur(22px) saturate(1.12);box-shadow:0 30px 100px rgba(0,0,0,.48);text-align:center}
+.launchGateLogo{width:76px;height:76px;border-radius:19px;display:block;margin:0 auto 14px;box-shadow:0 12px 34px rgba(0,0,0,.35)}
+.launchGateBrand{font-size:13px;letter-spacing:.24em;font-weight:950}
+.launchGateEyebrow{margin-top:20px;font-size:9px;letter-spacing:.16em;font-weight:950;color:rgba(255,255,255,.55)}
+.launchGateTitle{margin:7px 0 5px;font-size:27px;letter-spacing:-.04em;font-weight:950}
+.launchGateSub{font-size:12px;line-height:1.55;color:rgba(255,255,255,.68);max-width:340px;margin:0 auto}
+.launchCountdown{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:22px 0 18px}
+.launchUnit{padding:12px 5px;border-radius:13px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.09)}
+.launchUnit b{display:block;font-size:23px;line-height:1;font-variant-numeric:tabular-nums}.launchUnit span{display:block;margin-top:6px;font-size:8px;letter-spacing:.11em;color:rgba(255,255,255,.48);font-weight:900}
+.preBetaBtn{width:100%;border-radius:13px;padding:14px 16px;background:linear-gradient(135deg,#ff6a2b,#fc4c02);color:#fff;font-weight:950;box-shadow:0 12px 28px rgba(252,76,2,.25);transition:transform .18s,filter .18s}.preBetaBtn:active{transform:scale(.985)}
+.launchGateFoot{margin-top:12px;font-size:9px;color:rgba(255,255,255,.42);line-height:1.45}
+.preBetaModal{position:fixed;inset:0;z-index:61000;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,0,0,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.preBetaModal.show{display:flex}.preBetaCard{width:min(380px,100%);padding:24px;border-radius:22px;background:#fff;color:#151515;box-shadow:0 25px 80px rgba(0,0,0,.45)}
+.preBetaCard h2{margin:0 0 5px;font-size:23px;letter-spacing:-.035em}.preBetaCard p{margin:0 0 17px;font-size:12px;color:#777;line-height:1.5}.preBetaField{position:relative}.preBetaField input{width:100%;padding:13px 14px;border:1px solid #ddd;border-radius:12px;outline:none;background:#fafaf8}.preBetaField input:focus{border-color:#fc4c02;box-shadow:0 0 0 4px rgba(252,76,2,.1)}.preBetaActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.preBetaCancel{padding:12px;border-radius:11px;background:#eee;font-weight:850}.preBetaConfirm{padding:12px;border-radius:11px;background:#171717;color:#fff;font-weight:900}
+
 </style>
 </head>
 <body>
+
+<div id="launchGate" class="launchGate">
+  <div class="launchGateBg"></div>
+  <div class="launchGateCard">
+    <img class="launchGateLogo" src="./hike-logo.png" alt="HIKE+">
+    <div class="launchGateBrand">HIKE+</div>
+    <div class="launchGateEyebrow">OUVERTURE OFFICIELLE</div>
+    <div class="launchGateTitle">L’aventure commence bientôt.</div>
+    <p class="launchGateSub">HIKE+ sera accessible à tous le <strong>samedi 3 octobre à 10h00</strong>.</p>
+    <div class="launchCountdown" aria-label="Compte à rebours avant l'ouverture">
+      <div class="launchUnit"><b id="launchDays">00</b><span>JOURS</span></div>
+      <div class="launchUnit"><b id="launchHours">00</b><span>HEURES</span></div>
+      <div class="launchUnit"><b id="launchMinutes">00</b><span>MIN</span></div>
+      <div class="launchUnit"><b id="launchSeconds">00</b><span>SEC</span></div>
+    </div>
+    <button id="preBetaBtn" class="preBetaBtn" type="button">Pré-bêta</button>
+    <div class="launchGateFoot">Accès anticipé réservé aux personnes disposant du mot de passe pré-bêta.</div>
+  </div>
+</div>
+<div id="preBetaModal" class="preBetaModal" aria-hidden="true">
+  <div class="preBetaCard">
+    <h2>Accès pré-bêta</h2>
+    <p>Entre le mot de passe pré-bêta pour accéder à HIKE+ avant son ouverture officielle.</p>
+    <form id="preBetaForm">
+      <div class="preBetaField"><input id="preBetaPassword" type="password" autocomplete="off" placeholder="Mot de passe" aria-label="Mot de passe pré-bêta"></div>
+      <div class="preBetaActions"><button id="preBetaCancel" class="preBetaCancel" type="button">Annuler</button><button class="preBetaConfirm" type="submit">Accéder</button></div>
+    </form>
+  </div>
+</div>
+
 <div id="appSplash" class="appSplash"><div class="splashBg"></div><div class="splashInner"><div class="splashMark"><img src="./hike-logo.png" alt="HIKE+" /></div><div class="splashName">HIKE+</div><div class="splashSub">Tracez votre chemin. Vivez l’aventure.</div><div class="betaPill" style="margin-top:12px">BÊTA</div><div class="splashLine"><i></i></div></div></div>
 <section id="auth" class="screen active"><div class="auth"><div class="brand">HIKE+</div><h1 id="authTitle">Bienvenue.</h1><div class="sub" id="authSub">Reprends ton aventure là où tu l’as laissée.</div><form id="authForm"><div class="authField"><label>ADRESSE E-MAIL</label><input id="email" type="email" required autocomplete="email" placeholder="ton@email.com"></div><div class="authCreateOnly" id="authCreateOnly"><div class="authField createPseudoField"><label>PSEUDO</label><input id="pseudo" minlength="2" maxlength="24" autocomplete="nickname" placeholder="Ton pseudo"></div><div class="authField createPasswordField"><label>MOT DE PASSE</label><input id="password" type="password" required minlength="6" autocomplete="new-password" placeholder="••••••••"><button class="authEye" id="passwordEye" type="button" aria-label="Afficher le mot de passe">◉</button></div><div class="authField"><label>CONFIRMER LE MOT DE PASSE</label><input id="passwordConfirm" type="password" minlength="6" autocomplete="new-password" placeholder="Retape ton mot de passe"></div><div class="regAvatarWrap" id="regAvatarWrap"><div class="regAvatarRow"><div class="regAvatarPreview" id="regAvatarPreview">?</div><div><b style="font-size:12px">Photo de profil</b><div style="font-size:10px;color:#888;margin:3px 0 7px">Optionnel · tu peux la changer plus tard dans Paramètres.</div><button class="regAvatarBtn" id="regAvatarBtn" type="button">Choisir une photo</button><input id="regAvatarFile" type="file" accept="image/*" hidden></div></div></div></div><div class="authLoginPassword" id="authLoginPassword"><div class="authField"><label>MOT DE PASSE</label><input id="passwordLogin" type="password" minlength="6" autocomplete="current-password" placeholder="••••••••"><button class="authEye" id="passwordLoginEye" type="button" aria-label="Afficher le mot de passe">◉</button></div></div><button class="primary" id="authSubmit">Se connecter</button></form><button class="link" id="switchAuth" type="button">Créer un compte</button><div class="authSwitchHint"><span>HIKE+ · BÊTA OUVERTE</span></div><div class="note">Version bêta en cours de test · de nouvelles randonnées et fonctionnalités seront bientôt disponibles.</div></div></section>
 <section id="app" class="screen"><div class="betaTopBanner"><span class="betaTopDot">BÊTA</span><strong>Bêta ouverte</strong><span>· HIKE+ est actuellement en phase de test</span><span class="betaTopSep">·</span><span>De nouvelles randonnées bientôt disponibles</span></div><header class="header homeHeader"><button class="homeMenu" id="homeMenu" aria-label="Menu">☰</button><div class="brand homeBrand"><span>HIKE</span><b>+</b></div></header><main id="view" class="view"></main></section>
@@ -435,6 +486,30 @@ let GPX="<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<gpx xmln
 const STORE='hikeplus_beta_v1';
 let db={profiles:{},current:''};try{db=JSON.parse(localStorage.getItem(STORE)||'{}');if(!db.profiles)db.profiles={}}catch(e){db={profiles:{},current:''}}
 const $=id=>document.getElementById(id);let mode='login',user=null;
+
+// HIKE+ V1.6 — verrouillage jusqu’à l’ouverture officielle + accès pré-bêta
+const HIKE_PUBLIC_OPEN_AT = new Date('2026-10-03T10:00:00+02:00').getTime();
+const HIKE_PREBETA_PASSWORD = 'PREBETA2026APPHIKE+';
+function initLaunchGate(){
+  const gate=$('launchGate'), modal=$('preBetaModal');
+  if(!gate)return;
+  const unlocked=localStorage.getItem('hikeplus_prebeta_unlocked')==='1';
+  const closeGate=()=>{gate.classList.add('hidden');if(modal)modal.classList.remove('show');document.body.classList.remove('launchLocked');};
+  const tick=()=>{
+    if(Date.now()>=HIKE_PUBLIC_OPEN_AT){closeGate();clearInterval(window.hikeLaunchTimer);return;}
+    let d=Math.max(0,HIKE_PUBLIC_OPEN_AT-Date.now());
+    const days=Math.floor(d/86400000);d%=86400000;
+    const hours=Math.floor(d/3600000);d%=3600000;
+    const mins=Math.floor(d/60000);const secs=Math.floor((d%60000)/1000);
+    const set=(id,v)=>{const el=$(id);if(el)el.textContent=String(v).padStart(2,'0')};
+    set('launchDays',days);set('launchHours',hours);set('launchMinutes',mins);set('launchSeconds',secs);
+  };
+  if(unlocked||Date.now()>=HIKE_PUBLIC_OPEN_AT)closeGate();else{document.body.classList.add('launchLocked');tick();window.hikeLaunchTimer=setInterval(tick,1000);}
+  $('preBetaBtn')?.addEventListener('click',()=>{modal?.classList.add('show');modal?.setAttribute('aria-hidden','false');setTimeout(()=>$('preBetaPassword')?.focus(),80)});
+  $('preBetaCancel')?.addEventListener('click',()=>{modal?.classList.remove('show');modal?.setAttribute('aria-hidden','true');$('preBetaPassword').value='';});
+  $('preBetaForm')?.addEventListener('submit',e=>{e.preventDefault();const value=$('preBetaPassword')?.value||'';if(value===HIKE_PREBETA_PASSWORD){localStorage.setItem('hikeplus_prebeta_unlocked','1');window.hikePreBetaJustUnlocked=true;closeGate();$('preBetaPassword').value='';toast('Accès pré-bêta activé.');}else{toast('Mot de passe pré-bêta incorrect.');$('preBetaPassword').select();}});
+}
+
 function showHomeArrival(){const old=document.querySelector('.homeArrival');if(old)old.remove();const el=document.createElement('div');el.className='homeArrival';el.innerHTML='<div class="homeArrivalBg"></div><div class="homeArrivalInner"><div class="homeArrivalMark">+</div><div class="homeArrivalTitle">HIKE+</div><div class="homeArrivalSub">Cap sur le hiking</div><div class="homeArrivalLine"><i></i></div></div>';document.body.appendChild(el);setTimeout(()=>el.remove(),3600)}
 function updateHomeCountdown(){const target=new Date('2028-09-01T00:00:00');const tick=()=>{const el=document.getElementById('homeCdDays');if(!el)return;let d=Math.max(0,target-Date.now());const days=Math.floor(d/86400000);d%=86400000;const h=Math.floor(d/3600000);d%=3600000;const m=Math.floor(d/60000);const sec=Math.floor((d%60000)/1000);el.textContent=days+' j';$('homeCdHours').textContent=h+' h';$('homeCdMin').textContent=m+' min';$('homeCdSec').textContent=sec+' s'};tick();clearInterval(window.homeCdTimer);window.homeCdTimer=setInterval(tick,1000)}
 function ensureSideMenu(){if(document.getElementById('sideMenu'))return;const wrap=document.createElement('div');wrap.innerHTML='<div class="menuBackdrop" id="menuBackdrop"></div><aside class="sideMenu" id="sideMenu"><div class="menuHead"><div class="menuLogo">HIKE+</div><button class="menuClose" id="menuClose">×</button></div><div class="menuUser"><div class="menuAvatar" id="menuAvatar"></div><div><b id="menuUserName"></b><small>Objectif hiking</small><small id="menuUserProgress"></small></div></div><div class="menuLinks"><button class="menuLink" data-menu-view="home"><span>⌂</span>Accueil</button><button class="menuLink" data-menu-view="hikes"><span>⌖</span>Randonnées</button><button class="menuLink" data-menu-view="progress"><span>↗</span>Ma progression</button><button class="menuLink" data-menu-view="settings"><span>⚙</span>Paramètres</button></div><div class="menuFooter"><button class="menuLogout" id="menuLogout">Se déconnecter</button></div></aside>';document.body.appendChild(wrap);document.getElementById('menuBackdrop').onclick=closeSideMenu;document.getElementById('menuClose').onclick=closeSideMenu;document.querySelectorAll('.menuLink').forEach(b=>b.onclick=()=>{const v=b.dataset.menuView;if(v===currentView){closeSideMenu();return}closeSideMenu();render(v)});document.getElementById('menuLogout').onclick=()=>{closeSideMenu();logout()}}
@@ -836,7 +911,8 @@ function finish(){clearNavSession();stopWatch();const km=Math.max(0,traveled/100
 function animateFinishXP(oldXp,newXp,xp){const totalEl=$('finishXpTotal'),gainEl=$('finishXpGain'),gainStat=$('finishXp'),bar=$('finishXpBar'),levelEl=$('finishLevel');if(!totalEl||!gainEl||!gainStat||!bar)return;const duration=2300,start=performance.now(),startLevel=levelFromXp(oldXp),endLevel=levelFromXp(newXp);function frame(now){const t=Math.min(1,(now-start)/duration),ease=1-Math.pow(1-t,3),value=Math.round(oldXp+(newXp-oldXp)*ease),gain=Math.round(xp*ease),lp=levelProgress(value);gainStat.textContent='+'+gain;gainEl.textContent='+'+gain+' XP';totalEl.textContent=value+' XP';levelEl.textContent=lp.level;bar.style.width=lp.pct+'%';if(t<1){requestAnimationFrame(frame)}else{gainStat.textContent='+'+xp;gainEl.textContent='+'+xp+' XP';totalEl.textContent=newXp+' XP';levelEl.textContent=endLevel;bar.style.width=levelProgress(newXp).pct+'%';const pill=$('finishLevelUp');if(pill){if(endLevel>startLevel){pill.textContent='🎉 Niveau '+endLevel+' atteint !';pill.classList.add('show')}else pill.classList.remove('show')}if(endLevel>startLevel){const queuedGrades=(user.grades||[]).filter(i=>GRADES[i]&&GRADES[i][1]>startLevel&&GRADES[i][1]<=endLevel&&GRADES[i][1]<=newXp);setTimeout(()=>{showLevelUp(startLevel,endLevel,newXp);if(queuedGrades.length)setTimeout(()=>showGradeQueue(queuedGrades),4100)},450)}}}requestAnimationFrame(frame)}
 function simulate(){stopWatch();prep();if(!makeMap())return;$('app').classList.remove('active');$('navScreen').classList.add('active');setTimeout(()=>map.invalidateSize(true),100);traveled=0;dplus=0;best=0;cp=0;offRouteSince=0;navStarted=true;startProximitySince=0;navCancelling=false;drawRoute();updateRouteGuidance(0);cpbar();refreshCheckpointMarkers();if(turnMarker){map.removeLayer(turnMarker);turnMarker=null}$('offroute').classList.remove('show');simulating=true;$('navStatus').textContent='NAVIGATION · MODE TEST';startAt=Date.now();clearInterval(timerId);timerId=setInterval(()=>{const s=Math.floor((Date.now()-startAt)/1000);$('time').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},250);$('time').textContent='00:00';const t0=performance.now();function step(t){if(!simulating)return;const k=Math.min(1,(t-t0)/20000);best=total*k;traveled=best;const p=atProg(best),n=nearest(p),idx=Math.min(n.index+1,pts.length-1);dplus=cumDplus[Math.min(n.index,cumDplus.length-1)]||0;marker(p,bear(pts[n.index],pts[idx]));updateStats(n,5,p);saveNavSession();if(k<.02){$('instruction').textContent='Départ';$('turnDistance').textContent='Suivez le tracé';$('navArrow').textContent='↑';}else if(k>.98){$('instruction').textContent='Arrivée !';$('turnDistance').textContent='Derniers mètres';$('navArrow').textContent='↑';}else{updateGuidance(n,p);}if(k>=.999){finish();return}simId=requestAnimationFrame(step)}simId=requestAnimationFrame(step)}
 $('stopBtn').onclick=()=>{stopWatch();$('navScreen').classList.remove('active');$('app').classList.add('active');render('home')};$('simulateBtn').onclick=simulate;$('centerBtn').onclick=()=>{if(userMarker)map.setView(userMarker.getLatLng(),17)};$('finishBtn').onclick=()=>{$('finish').classList.remove('show');const gb=$('finishGradeUnlock');if(gb){gb.classList.remove('show');gb.innerHTML=''}$('app').classList.add('active');render('home')};
-if(!window.L)loadLeafletFallback(); const hasAnyProfile=Object.keys(db.profiles||{}).length>0; if(db.current&&db.profiles[db.current]){setMode('login');enter()}else{setMode(hasAnyProfile?'login':'register');applyTheme();}
+initLaunchGate();
+if(!window.L)loadLeafletFallback(); const hasAnyProfile=Object.keys(db.profiles||{}).length>0; if(window.hikePreBetaJustUnlocked){setMode(hasAnyProfile?'login':'register');applyTheme();$('app').classList.remove('active');$('auth').classList.add('active');window.hikePreBetaJustUnlocked=false;}else if(db.current&&db.profiles[db.current]){setMode('login');enter()}else{setMode(hasAnyProfile?'login':'register');applyTheme();}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){saveNavSession()}else{refreshAfterBackground()}});window.addEventListener('pageshow',refreshAfterBackground);window.addEventListener('pagehide',saveNavSession);window.addEventListener('beforeunload',saveNavSession);
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
 </script></body></html>
