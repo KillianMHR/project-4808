@@ -466,10 +466,8 @@ html.darkMode, html.darkMode body { background-color:#101210 !important; }
   <div class="preBetaCard">
     <h2>Accès pré-bêta</h2>
     <p>Entre le mot de passe pré-bêta pour accéder à HIKE+ avant son ouverture officielle.</p>
-    <form id="preBetaForm" novalidate>
-      <div class="preBetaField"><input id="preBetaPassword" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Mot de passe" aria-label="Mot de passe pré-bêta"></div>
-      <div class="preBetaActions"><button id="preBetaCancel" class="preBetaCancel" type="button">Annuler</button><button id="preBetaConfirm" class="preBetaConfirm" type="button">Accéder</button></div>
-    </form>
+    <div class="preBetaField"><input id="preBetaPassword" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Mot de passe" aria-label="Mot de passe pré-bêta"></div>
+    <div class="preBetaActions"><button id="preBetaCancel" class="preBetaCancel" type="button">Annuler</button><button id="preBetaConfirm" class="preBetaConfirm" type="button">Accéder</button></div>
   </div>
 </div>
 
@@ -487,7 +485,7 @@ const STORE='hikeplus_beta_v1';
 let db={profiles:{},current:''};try{db=JSON.parse(localStorage.getItem(STORE)||'{}');if(!db.profiles)db.profiles={}}catch(e){db={profiles:{},current:''}}
 const $=id=>document.getElementById(id);let mode='login',user=null;
 
-// HIKE+ V1.6 — verrouillage jusqu’à l’ouverture officielle + accès pré-bêta
+// HIKE+ V1.12 — verrouillage jusqu’à l’ouverture officielle + accès pré-bêta
 const HIKE_PUBLIC_OPEN_AT = new Date('2026-10-03T10:00:00+02:00').getTime();
 const HIKE_PREBETA_PASSWORD = 'PREBETA2026APPHIKE+';
 function initLaunchGate(){
@@ -534,11 +532,12 @@ function initLaunchGate(){
     if(typeof toast==='function')toast('Accès pré-bêta activé.');
     return true;
   };
-  // iPhone/Safari: validation directe du bouton, sans submit ni double événement tactile.
+  // V1.12 — validation pré-bêta totalement directe, sans formulaire ni submit.
   window.__hikeUnlockPreBeta=unlockPreBeta;
-  $('preBetaConfirm')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();unlockPreBeta();},true);
-  $('preBetaPassword')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();unlockPreBeta();}});
-  $('preBetaForm')?.addEventListener('submit',e=>{e.preventDefault();e.stopPropagation();unlockPreBeta();});
+  const confirmBtn=$('preBetaConfirm');
+  if(confirmBtn) confirmBtn.onclick=()=>unlockPreBeta();
+  const passwordInput=$('preBetaPassword');
+  if(passwordInput) passwordInput.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();unlockPreBeta();}};
   window.hikeResetPreBetaGate=()=>{
     localStorage.removeItem('hikeplus_prebeta_unlocked');
     window.hikePreBetaJustUnlocked=false;
