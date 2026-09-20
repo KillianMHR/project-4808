@@ -880,9 +880,9 @@ function showCertificationSuccess(bonusXp=70){let el=$('certSuccessOverlay');if(
       const f=e.target.files?.[0];if(!f)return;
       fileToAvatarDataURL(f,data=>{user.avatar=data;db.profiles[db.current]=user;if(persist())render('settings')});
     };
-    $('avatarDelete').onclick=()=>{
+    $('avatarDelete').onclick=async()=>{
       if(!user.avatar)return toast('Aucune photo de profil à supprimer');
-      if(confirm('Supprimer ta photo de profil ?')){user.avatar='';db.profiles[db.current]=user;persist();render('settings')}
+      if(await appConfirm('Supprimer la photo','Supprimer définitivement ta photo de profil ?', {icon:'🗑️',confirmText:'Supprimer',confirmClass:'danger'})){user.avatar='';db.profiles[db.current]=user;persist();render('settings')}
     };
     const cdSel=$('countdownDuration');if(cdSel)cdSel.onchange=()=>{const v=Number(cdSel.value);if([5,10,15,20,30,35,60].includes(v)){user.countdownDuration=v;db.profiles[db.current]=user;persist();toast('Compte à rebours réglé sur '+v+' s')}};const langSel=$('settingsLanguage');if(langSel)langSel.onchange=()=>{user.language=langSel.value==='en'?'en':'fr';db.profiles[db.current]=user;persist();render(currentView,true);};
     $('darkModeToggle').onclick=()=>{user.darkMode=!user.darkMode;db.profiles[db.current]=user;persist();applyTheme();render('settings')};
