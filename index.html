@@ -466,9 +466,9 @@ html.darkMode, html.darkMode body { background-color:#101210 !important; }
   <div class="preBetaCard">
     <h2>Accès pré-bêta</h2>
     <p>Entre le mot de passe pré-bêta pour accéder à HIKE+ avant son ouverture officielle.</p>
-    <form id="preBetaForm">
-      <div class="preBetaField"><input id="preBetaPassword" type="password" autocomplete="off" placeholder="Mot de passe" aria-label="Mot de passe pré-bêta"></div>
-      <div class="preBetaActions"><button id="preBetaCancel" class="preBetaCancel" type="button">Annuler</button><button class="preBetaConfirm" type="submit">Accéder</button></div>
+    <form id="preBetaForm" novalidate>
+      <div class="preBetaField"><input id="preBetaPassword" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Mot de passe" aria-label="Mot de passe pré-bêta"></div>
+      <div class="preBetaActions"><button id="preBetaCancel" class="preBetaCancel" type="button">Annuler</button><button id="preBetaConfirm" class="preBetaConfirm" type="button">Accéder</button></div>
     </form>
   </div>
 </div>
@@ -513,32 +513,33 @@ function initLaunchGate(){
   $('preBetaBtn')?.addEventListener('click',()=>{modal?.classList.add('show');modal?.setAttribute('aria-hidden','false');setTimeout(()=>{$('preBetaPassword')?.focus()},80)});
   $('preBetaCancel')?.addEventListener('click',()=>{modal?.classList.remove('show');modal?.setAttribute('aria-hidden','true');if($('preBetaPassword'))$('preBetaPassword').value='';});
   const unlockPreBeta=()=>{
-    const value=String($('preBetaPassword')?.value||'').trim();
+    const input=$('preBetaPassword');
+    const value=String(input?.value||'').trim();
     if(value!==HIKE_PREBETA_PASSWORD){
-      toast('Mot de passe pré-bêta incorrect.');
-      $('preBetaPassword')?.focus();
-      $('preBetaPassword')?.select();
-      return;
+      if(typeof toast==='function')toast('Mot de passe pré-bêta incorrect.');
+      input?.focus();
+      input?.select();
+      return false;
     }
     try{localStorage.setItem('hikeplus_prebeta_unlocked','1')}catch(e){}
     window.hikePreBetaJustUnlocked=true;
     closeGate();
-    if($('preBetaPassword'))$('preBetaPassword').value='';
+    if(input)input.value='';
     const profiles=Object.keys(db.profiles||{}).length>0;
     setMode(profiles?'login':'register');
     applyTheme();
     $('app').classList.remove('active');
     $('auth').classList.add('active');
     window.hikePreBetaJustUnlocked=false;
-    toast('Accès pré-bêta activé.');
+    if(typeof toast==='function')toast('Accès pré-bêta activé.');
+    return true;
   };
+  // iPhone/Safari: validation directe du bouton, sans dépendre du submit du formulaire.
+  window.__hikeUnlockPreBeta=unlockPreBeta;
+  $('preBetaConfirm')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();unlockPreBeta();},true);
+  $('preBetaConfirm')?.addEventListener('touchend',e=>{e.preventDefault();e.stopPropagation();unlockPreBeta();},{passive:false});
+  $('preBetaPassword')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();unlockPreBeta();}});
   $('preBetaForm')?.addEventListener('submit',e=>{e.preventDefault();e.stopPropagation();unlockPreBeta();});
-  $('preBetaForm')?.addEventListener('click',e=>{
-    const btn=e.target?.closest?.('.preBetaConfirm');
-    if(!btn)return;
-    e.preventDefault();e.stopPropagation();
-    unlockPreBeta();
-  });
   window.hikeResetPreBetaGate=()=>{
     localStorage.removeItem('hikeplus_prebeta_unlocked');
     window.hikePreBetaJustUnlocked=false;

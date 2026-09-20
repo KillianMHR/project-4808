@@ -1,3 +1,4 @@
-# HIKE+ Pré-bêta
+# HIKE+ V1.10
 Version Pré-bêta avec ouverture publique programmée au samedi 3 octobre 2026 à 10h00 (heure de France métropolitaine).
-Au lancement, un compte à rebours est affiché avant l'ouverture. Un bouton « Pré-bêta » permet un accès anticipé protégé par mot de passe et ouvre l'écran de création de compte ou de connexion.
+
+Correctif V1.10 : validation de l’accès pré-bêta directement sur le bouton « Accéder », avec gestion renforcée pour iPhone/Safari.
